@@ -1,9 +1,11 @@
-import {StoreState} from './index';
+import StoreState from './index';
 // import { ChatActionTypes } from './types';
-
-// interface IAppState {
-//     toDoList: any[];
-//   }
+import {
+  storyAction,
+  storyState,
+  SEND_MESSAGE,
+  DELETE_MESSAGE
+} from './types'
 
 interface Message {
     user: string
@@ -15,61 +17,37 @@ interface Story {
     messages: Message[]
 }
 
-import {
-    ChatState,
-    ChatActionTypes,
-    SEND_MESSAGE,
-    DELETE_MESSAGE
-  } from './types'
+
+
+
 
 const initialState: Story = {
     messages: []
   };
 
-export default function(state = initialState, action: ChatActionTypes): Story{
-    switch (action.type) {
-              case SEND_MESSAGE:
-                return {
-                  messages: [...state.messages, action.payload]
-                }
-              case DELETE_MESSAGE:
-                return {
-                  messages: state.messages.filter(
-                    message => message.timestamp !== action.meta.timestamp
-                  )
-                }
-              default:
-                return state
-            }
-}
+  export default function(state:storyState, action:storyAction): storyState{
+    switch(action.type){
+        default:
+            return {langName: 'asdassdad', storyAct: 4};
+        }
+    }
 
-// import {
-//     ChatState,
-//     ChatActionTypes,
-//     SEND_MESSAGE,
-//     DELETE_MESSAGE
-//   } from './types'
-  
-//   const initialState: ChatState = {
-//     messages: []
-//   }
-  
-//   export function chatReducer(
-//     state = initialState,
-//     action: ChatActionTypes
-//   ): ChatState {
+
+
+
+  // export default function(state = initialState, action: ChatActionTypes): Story{
 //     switch (action.type) {
-//       case SEND_MESSAGE:
-//         return {
-//           messages: [...state.messages, action.payload]
-//         }
-//       case DELETE_MESSAGE:
-//         return {
-//           messages: state.messages.filter(
-//             message => message.timestamp !== action.meta.timestamp
-//           )
-//         }
-//       default:
-//         return state
-//     }
-//   }
+//               case SEND_MESSAGE:
+//                 return {
+//                   messages: [...state.messages, action.payload]
+//                 }
+//               case DELETE_MESSAGE:
+//                 return {
+//                   messages: state.messages.filter(
+//                     message => message.timestamp !== action.meta.timestamp
+//                   )
+//                 }
+//               default:
+//                 return state
+//             }
+// }
