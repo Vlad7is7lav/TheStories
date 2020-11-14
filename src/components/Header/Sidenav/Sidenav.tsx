@@ -1,10 +1,14 @@
 import React from 'react';
 import SideNav from 'react-simple-sidenav';
+import Items from './items';
+
 
 type C1 = {
     showNav: boolean
     onHideNav: Function
 }
+
+type C2 = Function
 
 
 const MainSideNav:React.FC<C1> = (props) => {
@@ -12,8 +16,13 @@ const MainSideNav:React.FC<C1> = (props) => {
         <SideNav
             showNav={props.showNav}
             onHideNav={props.onHideNav}
+            navStyle={{
+                background: '#242424',
+                maxWidth: '220px'
+            }}
         >
-            Items
+            <Items onHideNav={props.onHideNav}/>
+            
         </SideNav>
         
     )
