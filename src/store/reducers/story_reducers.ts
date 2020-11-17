@@ -3,7 +3,6 @@ import StoreState from './index';
 import {
   storyAction,
   storyState,
-  SEND_MESSAGE,
   DELETE_MESSAGE
 } from './types'
 

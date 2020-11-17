@@ -8,14 +8,18 @@ import {createStore, applyMiddleware} from 'redux';
 import promiseMiddleware from 'redux-promise';
 
 import reducers from './store/reducers/index';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { create } from 'domain';
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore)
+const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(applyMiddleware(promiseMiddleware)))
+
+// const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore)
 
 
 
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={createStoreWithMiddleware}>
     <Routes />
   </Provider>,
   document.getElementById('root')

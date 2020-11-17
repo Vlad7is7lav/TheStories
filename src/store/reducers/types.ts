@@ -1,18 +1,17 @@
-export const SEND_MESSAGE = 'SEND_MESSAGE'
+export const USER_LOGIN = 'USER_LOGIN'
 export const DELETE_MESSAGE = 'DELETE_MESSAGE'
 
-
-export interface storyAction {
-  type: typeof SEND_MESSAGE
-  payload: storyData
+export interface IloginUser {
+  email: string,
+  password: string
 }
 
-export interface storyState {
-  langName: string,
-  storyAct: Number
+export interface IActionLogin {
+  type: typeof USER_LOGIN
+  payload: IUserData
 }
 
-export interface storyData {
+export interface IUserData {
   name: string
   author: string
   content: number
@@ -20,12 +19,26 @@ export interface storyData {
   rating: number
   ownerId: string
   timestamp: number
+  auth: boolean
+  userData: []
+}
+
+export interface storyAction {
+  type: typeof USER_LOGIN
+  payload: IUserData
+}
+
+export interface storyState {
+  langName: string,
+  storyAct: Number
 }
 
 
+
+
 export interface SendText {
-  type: typeof SEND_MESSAGE
-  payload: storyData
+  type: typeof USER_LOGIN
+  payload: IUserData
 }
 
 interface DeleteMessageAction {

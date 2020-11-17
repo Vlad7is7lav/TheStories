@@ -1,11 +1,10 @@
 import {combineReducers} from 'redux';
-import storyRed from './story_reducers';
-import userRed from './user_reducers';
-import * as user from './user_reducers';
+import storyReduce from './story_reducers';
+import userReduce from './user_reducers';
 
 const rootReducer = combineReducers({
-    storyReduce: storyRed,
-    userReduce: userRed
+    storyReduce,
+    userReduce
 });
 
 // const rootReducer = combineReducers({
