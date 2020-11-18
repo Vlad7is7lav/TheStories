@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import {IUserData} from '../../store/reducers/types'
 
 import {connect} from 'react-redux';
 import { loginUser } from '../../store/actions/user_actions';
@@ -18,6 +20,8 @@ type state = {
 
 type props = {
     dispatch: Function
+    user: IUserData
+    history: History
 }
 
 class LoginForm extends Component<props, state> {
@@ -34,6 +38,22 @@ class LoginForm extends Component<props, state> {
         password: Yup.string().min(8,'The minimum length is 8').trim().required('Password is required!')
     })
 
+    static getDerivedStateFromProps(props:props, state:state) {
+        const auth = props.user.auth;
+        if(auth){
+            return {
+                succes: auth ? true : false
+            }
+        }
+        return null
+    }
+
+    componentDidUpdate() {
+        if(this.state.succes) {
+            this.props.history.push('/admin')
+        }
+    }
+
 
     render() {
         return (
@@ -47,8 +67,15 @@ class LoginForm extends Component<props, state> {
                     <Formik 
                         initialValues={this.initialValues}
                         validationSchema={this.LoginScheme}
-                        onSubmit={values => {
+                        onSubmit={(values) => {
                             this.props.dispatch(loginUser(values))
+                            .then(() => {
+                                if(!this.props.user.auth){
+                                    this.setState({
+                                        validation: true
+                                    })
+                                }
+                            })
                         }}
                     >
 
@@ -99,6 +126,15 @@ class LoginForm extends Component<props, state> {
                                 <button type="submit">
                                     Login
                                 </button>
+                                <br/>
+                                {
+                                    this.state.validation ?
+                                    <div className="error_label">
+                                        Error, please try again
+                                    </div>
+                                    :
+                                    null
+                                }
                             </Form>
                         )}
 

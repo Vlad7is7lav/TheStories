@@ -45,6 +45,7 @@ const Items:React.FC<C1> = (props) => {
                 <div className="nav_split">
                     Admin options
                 </div>
+                {/* {(props.user.auth) ? showAdminLinks() : null} */}
                 {showAdminLinks()}
             </div>
 

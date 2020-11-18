@@ -9,7 +9,6 @@ import promiseMiddleware from 'redux-promise';
 
 import reducers from './store/reducers/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { create } from 'domain';
 
 const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(applyMiddleware(promiseMiddleware)))
 
