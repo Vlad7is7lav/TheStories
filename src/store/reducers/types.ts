@@ -1,4 +1,5 @@
 export const USER_LOGIN = 'USER_LOGIN'
+export const USER_AUTH = 'USER_AUTH'
 export const DELETE_MESSAGE = 'DELETE_MESSAGE'
 
 export interface IloginUser {
@@ -7,7 +8,7 @@ export interface IloginUser {
 }
 
 export interface IActionLogin {
-  type: typeof USER_LOGIN
+  type: typeof USER_LOGIN | typeof USER_AUTH
   payload: IUserData
 }
 
@@ -24,7 +25,7 @@ export interface IUserData {
 }
 
 export interface storyAction {
-  type: typeof USER_LOGIN
+  type: typeof USER_LOGIN 
   payload: IUserData
 }
 

@@ -1,4 +1,4 @@
-import {IloginUser, USER_LOGIN } from '../reducers/types';
+import {IloginUser, USER_LOGIN, USER_AUTH } from '../reducers/types';
 import axios, { AxiosResponse } from 'axios';
 
 // export default function sendMessage(text: storyData): SendText {
@@ -22,6 +22,16 @@ export function loginUser({email, password}:IloginUser) {
 
     return {
         type: USER_LOGIN,
+        payload: request
+    }
+}
+
+export function auth() {
+    const request = axios.get('/api/user/auth')
+    .then(response => response.data)
+
+    return {
+        type: USER_AUTH,
         payload: request
     }
 }

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
+import { bindActionCreators, Dispatch , Action} from 'redux';
 import { History } from 'history';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {IUserData} from '../../store/reducers/types'
+import {RootState, TuserReduce} from '../../store/reducers/index'
 
 import {connect} from 'react-redux';
 import { loginUser } from '../../store/actions/user_actions';
@@ -23,6 +25,7 @@ type props = {
     user: IUserData
     history: History
 }
+
 
 class LoginForm extends Component<props, state> {
 
@@ -53,7 +56,6 @@ class LoginForm extends Component<props, state> {
             this.props.history.push('/admin')
         }
     }
-
 
     render() {
         return (
@@ -136,16 +138,14 @@ class LoginForm extends Component<props, state> {
                                     null
                                 }
                             </Form>
-                        )}
-
-                    
-                        
+                        )}   
                     </Formik>
-
                 </div>
         )
     }
 }
+
+const mapDispatchToProps = {};
 
 function mapStateToProps(state:any) {
     return {
