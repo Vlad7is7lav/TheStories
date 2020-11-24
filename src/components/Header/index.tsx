@@ -2,14 +2,10 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
 import MainSideNav from './Sidenav/Sidenav'
-import { Sidenav } from 'react-simple-sidenav';
-
-type IShowNav = boolean;
-
 
 const Header:React.FC = () => {
 
-    const [showNav, setShowNav] = useState<IShowNav>(false);
+    const [showNav, setShowNav] = useState<boolean>(false);
 
     const showSidenav = () => {
         setShowNav(true);

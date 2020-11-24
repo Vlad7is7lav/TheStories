@@ -1,5 +1,5 @@
 import React, { Component, PureComponent } from 'react';
-import { bindActionCreators, Dispatch , Action} from 'redux';
+import { bindActionCreators, Dispatch , Action, compose} from 'redux';
 import { History } from 'history';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -145,13 +145,15 @@ class LoginForm extends Component<props, state> {
     }
 }
 
-const mapDispatchToProps = {};
+// const mapDispatchToProps = {};
 
 function mapStateToProps(state:any) {
     return {
         user: state.userReduce
     }
 }
+
+
 
 
 export default connect(mapStateToProps)(LoginForm);

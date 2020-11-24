@@ -28,7 +28,7 @@ export function loginUser({email, password}:IloginUser) {
 
 export function auth() {
     const request = axios.get('/api/user/auth')
-    .then(response => response.data)
+    .then(request => request.data)
 
     return {
         type: USER_AUTH,

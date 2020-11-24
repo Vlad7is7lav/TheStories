@@ -4,57 +4,62 @@ import { bindActionCreators, Dispatch , Action} from 'redux';
 import { History } from 'history';
 import { auth } from '../../store/actions/user_actions';
 import {RootState, TuserReduce} from '../../store/reducers/index'
-// import {TuserReduce} from '../../store/reducers/index'
 import {IUserData} from '../../store/reducers/types'
-
-type TComposedClass = React.ComponentType<props>
-type TReload = boolean
+import { boolean } from 'yup';
 
 type state = {
     loading: boolean
 }
 
+interface propsAuth {
+    auth: boolean
+    userData: object
+}
+
 interface props {
     dispatch: Function
-    user: TuserReduce
+    user: propsAuth
     history: History
 }
 
-// type propsAuth = {
-//     user: TuserReduce
-//     history: History
-//     dispatch: Function
-// }
 
-
-
-export default function(ComposedClass:React.ComponentType<props>, reload:TReload){
+export default function(ComposedClass:React.ComponentType<props>, reload?:boolean){
     class AuthCheck extends Component<props ,state> {
         state={
             loading: true
         }
 
-        
-
-
+        componentDidMount() {
+            this.props.dispatch(auth())
+            .then(() => {
+                let userAuth = this.props.user.auth;
+                this.setState({loading: false});
+                console.log(userAuth)
+                if (!userAuth) {this.props.history.push('/login')}
+                else {this.props.history.push('/admin')}
+            })
+        }
 
         render() {
             if(this.state.loading){
                 return <div>Loading...</div>
             }
-            else {
-                return <ComposedClass {...this.props} user={this.props.user}/>
-            }
+            return (
+                <ComposedClass {...this.props} user={this.props.user}/>
+            )
         }
     }
 
-    function mapStateToProps(state:RootState) {
+    type TState = {
+        userReduce: propsAuth
+        storyReduce: propsAuth
+    }
+
+    function mapStateToProps(state:TState):{} {
         return {
             user: state.userReduce
         }
     }
-
-    type A = typeof AuthCheck;
 
     return connect(mapStateToProps)(AuthCheck)
 }
