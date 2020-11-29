@@ -1,6 +1,7 @@
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_AUTH = 'USER_AUTH'
-export const DELETE_MESSAGE = 'DELETE_MESSAGE'
+export const USER_LOGOUT = 'USER_LOGOUT'
+
 
 export interface IloginUser {
   email: string,
@@ -8,7 +9,7 @@ export interface IloginUser {
 }
 
 export interface IActionLogin {
-  type: typeof USER_LOGIN | typeof USER_AUTH
+  type: typeof USER_LOGIN | typeof USER_AUTH | typeof USER_LOGOUT
   payload: IUserData
 }
 
@@ -40,13 +41,6 @@ export interface storyState {
 export interface SendText {
   type: typeof USER_LOGIN
   payload: IUserData
-}
-
-interface DeleteMessageAction {
-  type: typeof DELETE_MESSAGE
-  meta: {
-    timestamp: number
-  }
 }
 
 // export type ChatActionTypes = SendMessageAction | DeleteMessageAction

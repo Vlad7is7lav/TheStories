@@ -2,6 +2,8 @@ import React, { ReactElement, ReactText } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { routeSideLinks, IitemsLinks } from '../../../utils/routeSideLinks';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import userEvent from '@testing-library/user-event';
 
 type C1 = {
     onHideNav: Function
@@ -41,6 +43,8 @@ const Items:React.FC<C1> = (props) => {
         <div>
             {showCommonLinks()}
 
+            
+
             <div>
                 <div className="nav_split">
                     Admin options
@@ -54,4 +58,20 @@ const Items:React.FC<C1> = (props) => {
     )
 }
 
-export default Items
+interface propsAuth {
+    auth: boolean
+    userData: object
+}
+
+type TState = {
+    userReduce: propsAuth
+    storyReduce: propsAuth
+}
+
+const mapStatetoProps = function(state:TState) {
+    return {
+        user: state.userReduce
+    }
+}
+
+export default connect(mapStatetoProps)(Items);

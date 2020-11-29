@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, ReactComponentElement } from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators, Dispatch , Action} from 'redux';
 import { History } from 'history';
 import { auth } from '../../store/actions/user_actions';
 import {RootState, TuserReduce} from '../../store/reducers/index'
 import {IUserData} from '../../store/reducers/types'
-import { boolean } from 'yup';
+import { RouteComponentProps } from 'react-router-dom';
 
 type state = {
     loading: boolean
@@ -16,14 +16,21 @@ interface propsAuth {
     userData: object
 }
 
-interface props {
+interface props extends RouteComponentProps{
     dispatch: Function
     user: propsAuth
-    history: History
+
 }
 
+interface Props2 extends RouteComponentProps {
+    dispatch: Function
+    user: propsAuth
+}
 
-export default function(ComposedClass:React.ComponentType<props>, reload?:boolean){
+type TComposedClass = React.ComponentType<props> | React.FunctionComponent<Props2>
+
+
+export default function(ComposedClass:TComposedClass, reload?:boolean){
     class AuthCheck extends Component<props ,state> {
         state={
             loading: true
@@ -34,9 +41,19 @@ export default function(ComposedClass:React.ComponentType<props>, reload?:boolea
             .then(() => {
                 let userAuth = this.props.user.auth;
                 this.setState({loading: false});
-                console.log(userAuth)
-                if (!userAuth) {this.props.history.push('/login')}
-                else {this.props.history.push('/admin')}
+
+                
+                if (!userAuth) {
+                    if(reload) {
+                        this.props.history.push('/login')
+                    }
+                }
+                else {
+                    if(reload === false) {
+                        this.props.history.push('/admin')
+                    }
+                    
+                }
             })
         }
 

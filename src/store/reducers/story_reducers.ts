@@ -2,8 +2,7 @@ import StoreState from './index';
 // import { ChatActionTypes } from './types';
 import {
   storyAction,
-  storyState,
-  DELETE_MESSAGE
+  storyState
 } from './types'
 
 interface Message {

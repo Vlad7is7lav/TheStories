@@ -8,9 +8,6 @@ type C1 = {
     onHideNav: Function
 }
 
-type C2 = Function
-
-
 const MainSideNav:React.FC<C1> = (props) => {
     return (
         <SideNav

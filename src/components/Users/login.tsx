@@ -5,7 +5,8 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {IUserData} from '../../store/reducers/types'
-import {RootState, TuserReduce} from '../../store/reducers/index'
+import {RootState, TuserReduce} from '../../store/reducers/index';
+import { RouteComponentProps } from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import { loginUser } from '../../store/actions/user_actions';
@@ -16,14 +17,14 @@ interface MyFormValues {
   }
 
 type state = {
-    succes: boolean
+    success: boolean
     validation: boolean
 }
 
-type props = {
+interface props extends RouteComponentProps {
     dispatch: Function
     user: IUserData
-    history: History
+    // history: History
 }
 
 
@@ -32,7 +33,7 @@ class LoginForm extends Component<props, state> {
     initialValues: MyFormValues = {email: 'vlad111@gmail.com', password: 'passvlad123'}
 
     state = {
-        succes: false,
+        success: false,
         validation: false
     }
 
@@ -42,17 +43,21 @@ class LoginForm extends Component<props, state> {
     })
 
     static getDerivedStateFromProps(props:props, state:state) {
+        
         const auth = props.user.auth;
         if(auth){
             return {
                 succes: auth ? true : false
             }
         }
+        
         return null
     }
 
     componentDidUpdate() {
-        if(this.state.succes) {
+        console.log(this.state.success)
+        if(this.state.validation) {
+            console.log(this.state.validation)
             this.props.history.push('/admin')
         }
     }
@@ -72,11 +77,14 @@ class LoginForm extends Component<props, state> {
                         onSubmit={(values) => {
                             this.props.dispatch(loginUser(values))
                             .then(() => {
-                                if(!this.props.user.auth){
+                                if(this.props.user.auth){
+                                    console.log(111);
+                                    
                                     this.setState({
                                         validation: true
                                     })
                                 }
+                                
                             })
                         }}
                     >
