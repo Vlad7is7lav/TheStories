@@ -2,6 +2,7 @@ export interface IitemsLinks {
     icon: string
     text: string
     path: string
+    restricted?: boolean
 }
 
 type simple = IitemsLinks[];
@@ -21,7 +22,8 @@ export const routeSideLinks:IrouteLinks = {
         {
             icon: 'sign-in',
             text: 'Log-in',
-            path: '/login'
+            path: '/login',
+            restricted: true
         }
 
     ],

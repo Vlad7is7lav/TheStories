@@ -5,11 +5,13 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import userEvent from '@testing-library/user-event';
 
-type C1 = {
+interface C1 {
     onHideNav: Function
+    user: propsAuth
 }
 
-const Items:React.FC<C1> = (props) => {
+const Items:React.FC<C1> = (props):JSX.Element => {
+    
 
     const element = (item:IitemsLinks, i:number) => {
         return (
@@ -28,6 +30,9 @@ const Items:React.FC<C1> = (props) => {
 
     const showCommonLinks = () => (
         routeSideLinks.common.map((item:IitemsLinks,i:number)=> {
+            if(props.user.auth && item.restricted) {
+                return null
+            }
             return element(item,i)
         })
     )
@@ -42,9 +47,8 @@ const Items:React.FC<C1> = (props) => {
     return (
         <div>
             {showCommonLinks()}
-
+            {props.user.auth ? 
             
-
             <div>
                 <div className="nav_split">
                     Admin options
@@ -52,8 +56,9 @@ const Items:React.FC<C1> = (props) => {
                 {/* {(props.user.auth) ? showAdminLinks() : null} */}
                 {showAdminLinks()}
             </div>
-
-                
+            :
+            null
+        } 
         </div>
     )
 }

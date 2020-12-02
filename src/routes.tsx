@@ -9,6 +9,7 @@ import Main from './components/hoc/mainLayout';
 import Auth from './components/hoc/auth';
 import Admin from './components/Users/Admin/index';
 import Logout from './components/Users/logout';
+import AddPost from './components/Users/Admin/Posts/add'
 
 interface regProps {
 };
@@ -22,6 +23,7 @@ const Routes:React.FC<regProps> = () => {
             <Main>
                 <Switch>
                    
+                    <Route path="/admin/post/create" component={Auth(AddPost, true)} />
                     <Route path="/admin" component={Auth(Admin, true)} />
                     <Route path="/logout" component={Auth(Logout, true)} />
                     <Route path="/login" component={Auth(LoginForm, false)} />

@@ -23,8 +23,13 @@ type state = {
 
 interface props extends RouteComponentProps {
     dispatch: Function
-    user: IUserData
+    user: propsAuth
     // history: History
+}
+
+interface propsAuth {
+    auth: boolean
+    userData: object
 }
 
 
@@ -55,9 +60,7 @@ class LoginForm extends Component<props, state> {
     }
 
     componentDidUpdate() {
-        console.log(this.state.success)
         if(this.state.validation) {
-            console.log(this.state.validation)
             this.props.history.push('/admin')
         }
     }
@@ -77,9 +80,7 @@ class LoginForm extends Component<props, state> {
                         onSubmit={(values) => {
                             this.props.dispatch(loginUser(values))
                             .then(() => {
-                                if(this.props.user.auth){
-                                    console.log(111);
-                                    
+                                if(this.props.user.auth){                                    
                                     this.setState({
                                         validation: true
                                     })

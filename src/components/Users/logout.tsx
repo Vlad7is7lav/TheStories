@@ -28,14 +28,6 @@ const Logout:React.FC<Props2> = (props) => {
 
     useEffect(()=>{
         dispatch(logoutUser())
-        console.log(logout)
-        // .then(()=> {
-        //     console.log(logout.auth);
-            
-        //     setTimeout(()=>{
-        //         props.history.push('/')
-        //     }, 2000)
-        // })
     }
     ,[dispatch])
 

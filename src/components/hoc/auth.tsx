@@ -19,7 +19,6 @@ interface propsAuth {
 interface props extends RouteComponentProps{
     dispatch: Function
     user: propsAuth
-
 }
 
 interface Props2 extends RouteComponentProps {
