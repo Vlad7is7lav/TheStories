@@ -8,7 +8,7 @@ const AdminLayout:React.FC = (props):JSX.Element => {
         
         return (
                 <div className="container admin_layout">
-                    {props.children};
+                    {props.children}
                 </div>           
         )
         

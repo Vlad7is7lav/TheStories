@@ -43,7 +43,6 @@ export function logoutUser() {
     //     })
     const request = axios.get('/api/user/logout')
     .then(() => {return null})
-    console.log(request);   
     
     return {
         type: USER_LOGOUT,

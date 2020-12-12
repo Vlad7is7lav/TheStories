@@ -8,7 +8,7 @@ export interface ICreateFormElement {
     elData: {
         element: string
         type?: string
-        value: string
+        value: string | undefined
     }
     name: string | undefined
     placeholder?: string

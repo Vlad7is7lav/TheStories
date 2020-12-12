@@ -1,33 +1,49 @@
-import StoreState from './index';
-// import { ChatActionTypes } from './types';
 import {
-  storyAction,
-  storyState
+  IStoryAction,
+  IStoryData,
+  IResponseData,
+  STORY_ADD,
+  STORY_CLEAR,
+  STORY_GET,
+  STORY_UPDATE
 } from './types'
 
-interface Message {
-    user: string
-    message: string
-    timestamp: number
-  }
-
-interface Story {
-    messages: Message[]
-}
 
 
 
-
-
-const initialState: Story = {
-    messages: []
-  };
-
-  export default function(state:storyState, action:storyAction): storyState{
+  export default function(state={}, action:IStoryAction): {add?: IResponseData, update?: any}{
     switch(action.type){
-        default:
-            return {langName: 'asdassdad', storyAct: 4};
+      case STORY_ADD:
+        return {
+          ...state,
+          add: action.payload
         }
+        break;
+
+      case STORY_CLEAR: 
+        return { 
+          ...state,
+            add: action.payload, update: action.payload
+        }
+        break;
+      
+      case STORY_GET: 
+        return { 
+          ...state,
+            add: action.payload
+        }
+        break;
+        
+      case STORY_UPDATE: 
+        return { 
+          ...state,
+            update: action.payload
+        }
+        break;
+        
+      default:
+          return state;
+      }
     }
 
 

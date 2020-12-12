@@ -52,7 +52,7 @@ class LoginForm extends Component<props, state> {
         const auth = props.user.auth;
         if(auth){
             return {
-                succes: auth ? true : false
+                success: auth ? true : false
             }
         }
         
@@ -60,7 +60,7 @@ class LoginForm extends Component<props, state> {
     }
 
     componentDidUpdate() {
-        if(this.state.validation) {
+        if(this.state.success) {
             this.props.history.push('/admin')
         }
     }
@@ -80,7 +80,7 @@ class LoginForm extends Component<props, state> {
                         onSubmit={(values) => {
                             this.props.dispatch(loginUser(values))
                             .then(() => {
-                                if(this.props.user.auth){                                    
+                                if(!this.props.user.auth){                                    
                                     this.setState({
                                         validation: true
                                     })
