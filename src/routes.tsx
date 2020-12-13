@@ -16,16 +16,11 @@ import AdminPosts from './components/Users/Admin/Posts/admPosts';
 interface regProps {
 };
 
-interface regState {};
-
-
 const Routes:React.FC<regProps> = () => {
     return (
         <BrowserRouter>
             <Main>
                 <Switch>
-                   
-                    
                     <Route path="/admin/posts/edit/:id" component={Auth(EditPost, true)} />
                     <Route path="/admin/post/create" component={Auth(AddPost, true)} />
                     <Route path="/admin/posts/" component={Auth(AdminPosts, true)} />
@@ -39,4 +34,4 @@ const Routes:React.FC<regProps> = () => {
     )
 }
 
-export default Routes;
+export default Routes

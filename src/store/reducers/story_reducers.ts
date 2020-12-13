@@ -5,41 +5,44 @@ import {
   STORY_ADD,
   STORY_CLEAR,
   STORY_GET,
-  STORY_UPDATE
+  STORY_UPDATE,
+  STORIES_GET
 } from './types'
 
 
 
 
-  export default function(state={}, action:IStoryAction): {add?: IResponseData, update?: any}{
+  export default function(state={}, action:IStoryAction): {add?: IResponseData, update?: any, collection?: any}{
     switch(action.type){
       case STORY_ADD:
         return {
           ...state,
           add: action.payload
         }
-        break;
 
       case STORY_CLEAR: 
         return { 
           ...state,
             add: action.payload, update: action.payload
         }
-        break;
       
       case STORY_GET: 
         return { 
           ...state,
             add: action.payload
         }
-        break;
         
       case STORY_UPDATE: 
         return { 
           ...state,
             update: action.payload
         }
-        break;
+
+      case STORIES_GET: 
+        return { 
+          ...state,
+            collection: action.payload
+        }
         
       default:
           return state;

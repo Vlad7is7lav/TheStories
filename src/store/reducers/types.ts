@@ -6,6 +6,7 @@ export const STORY_ADD = 'BOOK_ADD'
 export const STORY_CLEAR = 'STORY_CLEAR'
 export const STORY_GET = 'STORY_GET'
 export const STORY_UPDATE = 'STORY_UPDATE'
+export const STORIES_GET = 'STORIES_GET'
 
 // import { EditorState } from "draft-js";
 
@@ -46,6 +47,7 @@ export interface IStoryData {
 export interface added {
   add: IResponseData
   update?: any
+  collection?: any
 }
 
 export interface IResponseData {
@@ -54,7 +56,7 @@ export interface IResponseData {
 }
 
 export interface IStoryAction {
-  type: typeof STORY_ADD | typeof STORY_CLEAR | typeof STORY_GET | typeof STORY_UPDATE
+  type: typeof STORY_ADD | typeof STORY_CLEAR | typeof STORY_GET | typeof STORY_UPDATE | typeof STORIES_GET
   payload: IResponseData
 }
 

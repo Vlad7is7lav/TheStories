@@ -10,7 +10,7 @@ const Main:React.FC = (props) => {
         <>
             <Header />
             <>
-                {props.children};
+                {props.children}
             </>
         </>
     )

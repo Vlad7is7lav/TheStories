@@ -1,7 +1,31 @@
-import {IloginUser,IStoryData, IStoryAction, 
-    USER_LOGIN, STORY_ADD, STORY_CLEAR, STORY_GET, STORY_UPDATE } from '../reducers/types';
 import axios, { AxiosResponse } from 'axios';
+import {
+    IloginUser,
+    IStoryData, 
+    USER_LOGIN, 
+    STORY_ADD, 
+    STORY_CLEAR, 
+    STORY_GET, 
+    STORY_UPDATE,
+    STORIES_GET
+} from '../reducers/types';
 
+export function getStories(
+    limit: number,
+    start: number = 0,
+    order: string = 'asc',
+    list?: Array<Object>
+) {
+    const request = axios.get(`/api/stories/all_stories?limit=${limit}&skip=${start}&order=${order}`)
+    .then(response => { 
+        return list ? [...list,...response.data] : response.data
+    })
+
+    return {
+        type: STORIES_GET,
+        payload: request
+    }
+}
 
 
 export function loginUser2({email, password}:IloginUser) {
