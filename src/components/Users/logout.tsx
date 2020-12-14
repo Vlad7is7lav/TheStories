@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {IUserData} from '../../store/reducers/types'
+import {IUserData} from '../../store/reducers/types';
 import {TuserReduce} from '../../store/reducers/index';
 import { logoutUser } from '../../store/actions/user_actions';
 import { RouteComponentProps } from 'react-router-dom';

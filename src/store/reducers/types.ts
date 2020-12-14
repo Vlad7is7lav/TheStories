@@ -41,7 +41,7 @@ export interface IStoryData {
   author: string,
   pages: string,
   rating: string,
-  content: string 
+  content: string
 }
 
 export interface added {

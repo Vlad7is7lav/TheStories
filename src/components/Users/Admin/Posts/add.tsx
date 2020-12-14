@@ -25,7 +25,7 @@ interface MyFormValues {
     rating: string
   }
 
-  type state = {
+type state = {
     editorState: any
     editorContent: string
     success: boolean
