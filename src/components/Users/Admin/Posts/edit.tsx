@@ -5,7 +5,7 @@ import AdminLayout from '../../../hoc/adminLayout';
 import {CreateFormElement} from '../Posts/addition/addition';
 import {StorySchema} from '../Posts/addition/addition';
 // import {ICreateFormElement} from '../Posts/addition/addition'
-import {IStoryData, IResponseData, added} from '../../../../store/reducers/types'
+import {IStoryData, added, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
 import { RouteComponentProps } from 'react-router-dom';
 
 import htmlToDraft from 'html-to-draftjs';
@@ -17,6 +17,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {updateStory, clearStory, getStory} from '../../../../store/actions/story_actions';
 
 import {connect} from 'react-redux';
+import { RootUserReduce, RootStoryReduce } from '../../../../store/reducers';
+import { UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
 // interface MyValues {
 //     _id: string
@@ -41,14 +43,15 @@ interface propsAuth {
 
 interface props extends RouteComponentProps {
     dispatch: Function
-    user: propsAuth
+    user: UserReduceStateType
     story: {
         add: IStoryData | false //if didn't get data then false
         update: {
             success: boolean
-            doc: IStoryData
+            doc: IStoryData 
         }
     }
+    // story: StoryReduceStateType
     match: any  //???????????????????
 }
 
@@ -57,7 +60,7 @@ class EditPost extends Component<props, state> {
     state: state={
         editorState: '',
         editorContent:'',
-        success: false,
+        success: false, 
         loading: true,
         htmlToEdit: {
             _id: '',
@@ -90,7 +93,7 @@ class EditPost extends Component<props, state> {
         console.log(storyData);
         
         // if we didn't get data ->  got to home page
-        if (storyData !== false) {
+        if (storyData !== false && storyData !== null) {
             const blocksFromHtml = htmlToDraft(storyData.content)
             const {contentBlocks, entityMap} = blocksFromHtml
             const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
@@ -126,10 +129,9 @@ class EditPost extends Component<props, state> {
 
     render() {
         return this.state.loading ? 
-                <>Loading</>
+            <>Loading</>
 
-                :
-
+            :
 
             <AdminLayout>
                 <h4>Add a post</h4>
@@ -228,9 +230,13 @@ class EditPost extends Component<props, state> {
 
                                 <div className="success_entry">
                                     <div>Story is updated!</div>
+                                    {(this.props.story.update === null) ? null
+                                    :
                                     <Link to={`/article/${this.props.story.update.doc._id}`}>
                                         Find your story here...
                                     </Link>
+                                        }
+                                    
                                 </div>
                                 : null
                             
@@ -252,7 +258,16 @@ type TState = {
     storyReduce: any
 }
 
-const mapStatetoProps = function(state:TState) {
+type TGeneralState = {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
+}
+
+type MapStateToPropsType = {
+    story: any
+}
+
+const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     return {
         story: state.storyReduce
     }

@@ -1,42 +1,40 @@
-import React, { Component, ReactComponentElement } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { bindActionCreators, Dispatch , Action} from 'redux';
-import { History } from 'history';
 import { auth } from '../../store/actions/user_actions';
-import {RootState, TuserReduce} from '../../store/reducers/index'
-import {IUserData} from '../../store/reducers/types'
+import {RootStoryReduce, RootUserReduce} from '../../store/reducers/index'
 import { RouteComponentProps } from 'react-router-dom';
+import { UserReduceStateType } from '../../store/reducers/TypesForUser';
+import { StoryReduceStateType } from '../../store/reducers/TypesForStory';
+import { Dispatch, Action } from 'redux';
+import { AxiosResponse } from 'axios';
+type UserDatatoNull = {
+    auth: boolean | null
+    userData: null
+}
+type props = RouteComponentProps & {
+    dispatch: Function
+    user: UserReduceStateType
+}
+
+type props2 = RouteComponentProps & {
+    dispatch: Function
+    story: StoryReduceStateType
+}
 
 type state = {
     loading: boolean
 }
 
-interface propsAuth {
-    auth: boolean
-    userData: object
-}
-
-interface props extends RouteComponentProps{
-    dispatch: Function
-    user: propsAuth
-}
-
-interface Props2 extends RouteComponentProps {
-    dispatch: Function
-    user: propsAuth
-}
-
-type TComposedClass = React.ComponentType<props> | React.FunctionComponent<Props2>
-
+type TComposedClass = React.ComponentType<props | props2> | React.FunctionComponent<props>
 
 export default function(ComposedClass:TComposedClass, reload?:boolean){
-    class AuthCheck extends Component<props ,state> {
+    class AuthCheck extends Component<props, state> {
         state={
             loading: true
         }
 
         componentDidMount() {
-            this.props.dispatch(auth())
+            this.props.dispatch(auth()) 
             .then(() => {
                 let userAuth = this.props.user.auth;
                 this.setState({loading: false});
@@ -65,20 +63,28 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
             )
         }
     }
-
-    type TState = {
-        userReduce: propsAuth
-        storyReduce: propsAuth
+    
+    type TGeneralState = {
+        userReduce: RootUserReduce
+        storyReduce: RootStoryReduce
     }
 
-    function mapStateToProps(state:TState):{} {
+   
+   
+    type MapStateToPropsType = {
+        user: UserReduceStateType
+    }
+
+    function mapStateToProps(state:TGeneralState):MapStateToPropsType {
         return {
             user: state.userReduce
         }
     }
 
-    return connect(mapStateToProps)(AuthCheck)
+    const mapDispatchToProps = (dispatch: Dispatch)=> ({
+        auth: auth,
+        dispatch
+      });
+
+    return connect<MapStateToPropsType, typeof mapDispatchToProps, {} , TGeneralState>(mapStateToProps, mapDispatchToProps)(AuthCheck)
 }
-
-
-

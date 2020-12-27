@@ -9,34 +9,32 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {IUserData} from '../../../../store/reducers/types'
+import {IStoryData, IUserData} from '../../../../store/reducers/TypesForStory'
 
 import moment from 'moment';
+import { RootUserReduce, RootStoryReduce } from '../../../../store/reducers';
+import { UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
 
 interface props extends RouteComponentProps {
-    user: propsAuth
+    user: UserReduceStateType
 }
 
 interface propsAuth {
-    auth: boolean
-    userData: any
+    userData: IUserData
 }
 
 const AdminPosts = (props:props) => {
 
     let [posts, setPosts] = useState<IUserData[]>([]);
-
+        
     useEffect(()=> {
+        if(props.user.userData === null || props.user.userData === false) return
         axios.get(`/api/stories/all_stories?owner=${props.user.userData.id}`)
         .then(response => {
             setPosts(response.data)
         })
     }, [props])
-
-    console.log(posts);
-    
-
 
     return(
         <AdminLayout>

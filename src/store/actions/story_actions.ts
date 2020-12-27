@@ -1,21 +1,38 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import {
-    IloginUser,
+    AddStoryType,
     IStoryData, 
-    USER_LOGIN, 
     STORY_ADD, 
     STORY_CLEAR, 
     STORY_GET, 
     STORY_UPDATE,
     STORIES_GET
-} from '../reducers/types';
+} from '../reducers/TypesForStory';
+
+  
+// type loginUserType = {type: typeof USER_LOGIN, payload: loginUserData | Promise<any>}
+
+// export function loginUser2({email, password}:IloginUser):loginUserType {
+//     const request = axios.post('http://localhost:3000/login', {email, password})
+//     .then((request) => request.data)
+
+//     return {
+//         type: USER_LOGIN,
+//         payload: request
+//     }
+// }
+
+type GetStoriesType = {
+    type: typeof STORIES_GET
+    payload: Promise<Array<IStoryData>>
+}
 
 export function getStories(
     limit: number,
     start: number = 0,
     order: string = 'asc',
     list?: Array<Object>
-) {
+):GetStoriesType {
     const request = axios.get(`/api/stories/all_stories?limit=${limit}&skip=${start}&order=${order}`)
     .then(response => { 
         return list ? [...list,...response.data] : response.data
@@ -27,18 +44,7 @@ export function getStories(
     }
 }
 
-
-export function loginUser2({email, password}:IloginUser) {
-    const request = axios.post('http://localhost:3000/login', {email, password})
-    .then((request) => request.data)
-
-    return {
-        type: USER_LOGIN,
-        payload: request
-    }
-}
-
-export function addStory(story:IStoryData) {
+export function addStory(story:IStoryData):AddStoryType {
     const request = axios.post('/api/stories/story', story)
     .then((response) => {return response.data})
     
@@ -48,7 +54,7 @@ export function addStory(story:IStoryData) {
     }
 }
 
-export function updateStory(story:IStoryData) {
+export function updateStory(story:IStoryData):AddStoryType {
     const request = axios.patch('/api/stories/story', story)
     .then((response) => {return response.data})
     .catch((err)=> {
@@ -61,7 +67,7 @@ export function updateStory(story:IStoryData) {
     }
 }
 
-export function getStory(storyId:string) {
+export function getStory(storyId:string):AddStoryType {
     const request = axios.get(`/api/stories/story?id=${storyId}`)
     .then((response) => {return response.data})
     .catch((err)=> {
@@ -74,7 +80,7 @@ export function getStory(storyId:string) {
     }
 }
 
-export function clearStory() {
+export function clearStory():AddStoryType | {type: typeof STORY_CLEAR, payload: null } {
     return {
         type: STORY_CLEAR,
         payload: null

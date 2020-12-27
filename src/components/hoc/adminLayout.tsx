@@ -1,8 +1,5 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 
-
-interface WrappedProps {
-};
 
 const AdminLayout:React.FC = (props):JSX.Element => {
         

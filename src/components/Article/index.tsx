@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
 import {getStory, clearStory} from '../../store/actions/story_actions'
-import {IStoryData} from '../../store/reducers/types'
+import { RootUserReduce, RootStoryReduce } from '../../store/reducers';
+import {IStoryData} from '../../store/reducers/TypesForStory'
 
 interface IStoryDataWithOwner extends IStoryData {
     ownerId: {
@@ -11,16 +12,20 @@ interface IStoryDataWithOwner extends IStoryData {
     }
 }
 
-interface props extends RouteComponentProps {
+type props = RouteComponentProps & {
     dispatch: Function
-    match: any
-    story: {
-        add: IStoryDataWithOwner | false //if didn't get data then false
-        update: {
-            success: boolean
-            doc: IStoryData
+    match: {
+        params: {
+            id: string
         }
     }
+    // story: {
+    //     add: IStoryDataWithOwner | false //if didn't get data then false
+    //     update: {
+    //         success: boolean
+    //         doc: IStoryData
+    //     }
+    // }
 }
 
 type state = {
@@ -29,11 +34,12 @@ type state = {
     }
 }
 
-
+type TGeneralState = {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
+}
 
 const Article:React.FC<props> = (props) => {
-    
-    // const [article, setArticle] = useState()
 
     const article = useSelector((state:state) => state.storyReduce);
     const dispatch = useDispatch();
@@ -71,8 +77,6 @@ const Article:React.FC<props> = (props) => {
         }
     }
 
-
-    
     return (
             <div className="container">
                 {showArticle()}    
@@ -86,9 +90,7 @@ const Article:React.FC<props> = (props) => {
                     } 
                 </div>      
             </div>
-
-    )
-    
+    ) 
 }
 
-export default Article;
+export default Article; 

@@ -1,13 +1,17 @@
-import {USER_LOGIN, USER_AUTH, IActionLogin, IUserData, USER_LOGOUT} from '../reducers/types';
+import {USER_LOGIN, USER_AUTH, USER_LOGOUT, UserReduceStateType, UserReduceActionType} from './TypesForUser';
 
+// export interface IState {
+//     langName: string,
+//     storyAct: Number
+// }
 
-export interface IState {
-    langName: string,
-    storyAct: Number
+type UserDatatoNull = {
+    auth: boolean | null
+    userData: null
 }
 
 
-export default function(state={}, action:IActionLogin): {auth?:any, userData?: IUserData[] | boolean} {
+export default function(state={}, action:UserReduceActionType):UserReduceStateType {
     switch(action.type){
         case USER_LOGIN:
             return {...state, auth: action.payload.auth, userData: action.payload.userData};
@@ -21,15 +25,16 @@ export default function(state={}, action:IActionLogin): {auth?:any, userData?: I
         case USER_LOGOUT: 
         return {
             ...state,
-            auth: action.payload,
-            userData: false
+            auth: action.payload.auth,
+            userData: null
         }
         default:
-            return state
+            return {
+                auth: null,
+                userData: null
+            }
     }
 }
-
-//меняем стейт
 
 
 

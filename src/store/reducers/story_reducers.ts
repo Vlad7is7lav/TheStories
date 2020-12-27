@@ -1,18 +1,22 @@
 import {
-  IStoryAction,
-  IStoryData,
-  IResponseData,
+  StoryReduceStateType,
+  AddStoryType,
   STORY_ADD,
   STORY_CLEAR,
   STORY_GET,
   STORY_UPDATE,
-  STORIES_GET
-} from './types'
+  STORIES_GET,
+  StoryReduceActionType,
+  added,
+  IStoryData
+} from './TypesForStory'
 
+export type top = {
+  type: typeof STORY_ADD | typeof STORY_CLEAR | typeof STORY_GET | typeof STORY_UPDATE | typeof STORIES_GET
+  payload: Array<IStoryData>
+}
 
-
-
-  export default function(state={}, action:IStoryAction): {add?: IResponseData, update?: any, collection?: any}{
+  export default function(state={add: null, update: null, collection: []}, action:top & StoryReduceActionType):StoryReduceStateType {
     switch(action.type){
       case STORY_ADD:
         return {
@@ -45,26 +49,12 @@ import {
         }
         
       default:
-          return state;
+          return state
       }
     }
 
-
-
-
-  // export default function(state = initialState, action: ChatActionTypes): Story{
-//     switch (action.type) {
-//               case SEND_MESSAGE:
-//                 return {
-//                   messages: [...state.messages, action.payload]
-//                 }
-//               case DELETE_MESSAGE:
-//                 return {
-//                   messages: state.messages.filter(
-//                     message => message.timestamp !== action.meta.timestamp
-//                   )
-//                 }
-//               default:
-//                 return state
-//             }
-// }
+    // {
+    //   add: null,
+    //   update: null,
+    //   collection: []
+    // }

@@ -3,13 +3,7 @@ import {Link} from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
 import MainSideNav from './Sidenav/Sidenav'
 
-type C1 = {
-    // showNav: boolean
-    // onHideNav: Function
-    // // auth?: boolean
-}
-
-const Header:React.FC<C1> = (props) => {
+const Header:React.FC = (props) => {
 
     const [showNav, setShowNav] = useState<boolean>(false);
 

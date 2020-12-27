@@ -1,11 +1,9 @@
 import React, { Component, PureComponent } from 'react';
 import { bindActionCreators, Dispatch , Action, compose} from 'redux';
-import { History } from 'history';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import {IUserData} from '../../store/reducers/types'
-import {RootState, TuserReduce} from '../../store/reducers/index';
+import {RootStoryReduce, RootUserReduce} from '../../store/reducers/index';
 import { RouteComponentProps } from 'react-router-dom';
 
 import {connect} from 'react-redux';
@@ -23,15 +21,8 @@ type state = {
 
 interface props extends RouteComponentProps {
     dispatch: Function
-    user: propsAuth
-    // history: History
+    user: RootUserReduce
 }
-
-interface propsAuth {
-    auth: boolean
-    userData: object
-}
-
 
 class LoginForm extends Component<props, state> {
 
@@ -154,15 +145,24 @@ class LoginForm extends Component<props, state> {
     }
 }
 
-// const mapDispatchToProps = {};
 
-function mapStateToProps(state:any) {
+type TGeneralState= {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
+}
+
+type MapStateToPropsType = {
+    user: RootUserReduce
+}
+
+const dispatchToProps = {
+    loginUser: loginUser
+  }
+
+function mapStateToProps(state:TGeneralState):MapStateToPropsType {
     return {
         user: state.userReduce
     }
 }
 
-
-
-
-export default connect(mapStateToProps)(LoginForm);
+export default connect<MapStateToPropsType, typeof dispatchToProps, {}, TGeneralState>(mapStateToProps)(LoginForm);

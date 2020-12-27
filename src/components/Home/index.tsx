@@ -1,36 +1,22 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { getStories } from '../../store/actions/story_actions';
-import { added, IUserData } from '../../store/reducers/types';
+import { added, IStoryData, StoryReduceStateType } from '../../store/reducers/TypesForStory';
 import { RouteComponentProps } from 'react-router-dom';
 import {Link} from 'react-router-dom'
+import { UserReduceStateType } from '../../store/reducers/TypesForUser';
+import { RootUserReduce, RootStoryReduce } from '../../store/reducers';
 
-interface propsAuth {
-    auth: boolean
-    userData: object
-}
-
-type TState = {
-    userReduce: propsAuth
-    storyReduce: added 
-}
-
-type state = {
-
-}
-
-interface props extends RouteComponentProps {
+type props = RouteComponentProps & {
     dispatch: Function
-    story: added
+    story: RootStoryReduce
 }
 
-type TRow = {
-    name: string
+type tr = {
+    collection: Array<IStoryData>
 }
 
-
-
-class Home extends Component<props, state> {
+class Home extends Component<props> {
 
     componentDidMount() {
         this.props.dispatch(getStories(4,0,'desc'))
@@ -42,9 +28,9 @@ class Home extends Component<props, state> {
         this.props.dispatch(getStories(2,countToSkip,'desc',storyList));
     }
 
-    showArtciles = (story:added) => {
+    showArtciles = (story:tr) => {
       if(story.collection) {
-        const rowsArray:Array<IUserData[]> = this.rowGenerator(story.collection, 2)
+        const rowsArray:IStoryData[][] = this.rowGenerator(story.collection, 2)
         const generateArticles = this.generateRowBlocks(rowsArray, 'six')
         return generateArticles
       } else {
@@ -52,8 +38,8 @@ class Home extends Component<props, state> {
       }
     }
 
-    generateRowBlocks = (rows:Array<IUserData[]>, cl: string) => (
-        rows.map((row:Array<IUserData>, i:number) => (
+    generateRowBlocks = (rows:Array<IStoryData[]>, cl: string) => (
+        rows.map((row:Array<IStoryData>, i:number) => (
                 <div className="row" key={i}>
                     {
                         row.map((el:any) => (
@@ -78,13 +64,11 @@ class Home extends Component<props, state> {
         )
     )
 
-    rowGenerator = (lists:Array<IUserData>, cols:number) => {
+    rowGenerator = (lists:Array<IStoryData>, cols:number) => {
         const rows = [...Array(Math.ceil(lists.length/cols))];
-        const articlesRows = rows.map((row:any, i:number) => lists.slice(i*cols,i*cols+cols)
+        const articlesRows = rows.map((row:[], i:number) => lists.slice(i*cols,i*cols+cols)
         )
-
         return articlesRows
-
     }
 
     render(){
@@ -94,26 +78,47 @@ class Home extends Component<props, state> {
                    {this.showArtciles(this.props.story)}
                 </div>
 
-                <div 
+                {(this.props.story.collection) ?
+                    <div 
+                        className="loadmore"
+                        onClick={this.loadmore}
+                    >
+                        LoadMore
+                    </div>
+
+                :
+                null
+                }
+                {/* <div 
                     className="loadmore"
                     onClick={this.loadmore}
                 >
                     LoadMore
-                </div>
+                </div> */}
 
             </div>
         )
     }
 }
 
+type TGeneralState = {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
+}
 
+type MapStateToPropsType = {
+    // story: StoryReduceStateType
+    story: RootStoryReduce
+}
 
+const dispatchToProps = {
+    getStories: getStories
+  }
 
-
-function mapStateToProps (state: TState) {
+function mapStateToProps (state: TGeneralState):MapStateToPropsType {
     return {
         story: state.storyReduce
     }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect<MapStateToPropsType, typeof dispatchToProps, {}, TGeneralState>(mapStateToProps,dispatchToProps)(Home);

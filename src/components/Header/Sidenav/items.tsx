@@ -1,13 +1,13 @@
-import React, { ReactElement, ReactText } from 'react';
+import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { routeSideLinks, IitemsLinks } from '../../../utils/routeSideLinks';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import userEvent from '@testing-library/user-event';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RootUserReduce, RootStoryReduce } from '../../../store/reducers';
 
-interface C1 {
+type C1 = {
     onHideNav: Function
-    user: propsAuth
+    user: RootUserReduce
 }
 
 const Items:React.FC<C1> = (props):JSX.Element => {
@@ -63,20 +63,19 @@ const Items:React.FC<C1> = (props):JSX.Element => {
     )
 }
 
-interface propsAuth {
-    auth: boolean
-    userData: object
+type TGeneralState = {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
 }
 
-type TState = {
-    userReduce: propsAuth
-    storyReduce: propsAuth
+type MapStateToPropsType = {
+    user: RootUserReduce
 }
 
-const mapStatetoProps = function(state:TState) {
+const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     return {
         user: state.userReduce
     }
 }
 
-export default connect(mapStatetoProps)(Items);
+export default connect<MapStateToPropsType, {}, {}, TGeneralState>(mapStatetoProps)(Items);

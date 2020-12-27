@@ -8,9 +8,9 @@ type C1 = {
     onHideNav: Function
 }
 
-type C2 = Omit<C1,'auth'>
+// type C2 = Omit<C1,'auth'>
 
-const MainSideNav:React.FC<C2> = (props):JSX.Element => {
+const MainSideNav:React.FC<C1> = (props):JSX.Element => {
     return (
         <SideNav
             showNav={props.showNav}

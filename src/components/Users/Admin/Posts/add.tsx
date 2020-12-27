@@ -5,7 +5,7 @@ import AdminLayout from '../../../hoc/adminLayout';
 import {CreateFormElement} from '../Posts/addition/addition';
 import {StorySchema} from '../Posts/addition/addition';
 // import {ICreateFormElement} from '../Posts/addition/addition'
-import {IStoryData, IResponseData, added} from '../../../../store/reducers/types'
+import {IStoryData, AddStoryResponseType, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
 import { RouteComponentProps } from 'react-router-dom';
 
 import { EditorState } from "draft-js";
@@ -16,7 +16,10 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {addStory, clearStory} from '../../../../store/actions/story_actions';
 
 import {connect} from 'react-redux';
+import { RootStoryReduce, RootUserReduce } from '../../../../store/reducers';
+import { IUserData, UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
+// @ts-nocheck
 interface MyFormValues {
     name: string
     author: string
@@ -32,19 +35,17 @@ type state = {
 }
 
 interface propsAuth {
-    auth: boolean
-    userData: object
-}
-
-interface props extends RouteComponentProps {
-    dispatch: Function
-    user: propsAuth
-    story: {
-        add: IResponseData
+    add: {
+        bookId: string
     }
 }
 
-    // type props1 = FormikProps<MyFormValues> & props
+
+interface props extends RouteComponentProps {
+    dispatch: Function
+    user: RootUserReduce
+    story: StoryReduceStateType
+}
 
 class AddPost extends Component<props, state> {
 
@@ -187,9 +188,16 @@ class AddPost extends Component<props, state> {
 
                                 <div className="success_entry">
                                     <div>Story is added!</div>
+                                    {(this.props.story.add != null) ? 
+                                    
                                     <Link to={`/article/${this.props.story.add.bookId}`}>
                                         Find your story here...
                                     </Link>
+                                    
+                                    : 
+                                    null
+                                }
+                                    
                                 </div>
                                 : null
                             
@@ -206,12 +214,16 @@ class AddPost extends Component<props, state> {
     }
 }
 
-type TState = {
-    userReduce: propsAuth
-    storyReduce: added
+type TGeneralState = {
+    userReduce: RootUserReduce
+    storyReduce: RootStoryReduce
 }
 
-const mapStatetoProps = function(state:TState) {
+type MapStateToPropsType = {
+    story: StoryReduceStateType
+}
+
+const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     return {
         story: state.storyReduce
     }
@@ -219,6 +231,6 @@ const mapStatetoProps = function(state:TState) {
 
 
 
-export default connect(mapStatetoProps)(AddPost);
+export default connect<MapStateToPropsType, {},{},TGeneralState>(mapStatetoProps)(AddPost);
 
 // export default AddPost

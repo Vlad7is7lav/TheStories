@@ -7,12 +7,6 @@ const rootReducer = combineReducers({
     userReduce
 });
 
-// const rootReducer = combineReducers({
-//     chat: chatReducer
-//   })
-  
-
-
 export default rootReducer;
-export type RootState = ReturnType<typeof rootReducer>;
-export type TuserReduce = ReturnType<typeof userReduce>
+export type RootStoryReduce = ReturnType<typeof storyReduce>; 
+export type RootUserReduce = ReturnType<typeof userReduce>
