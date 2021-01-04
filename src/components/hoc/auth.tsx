@@ -5,12 +5,8 @@ import {RootStoryReduce, RootUserReduce} from '../../store/reducers/index'
 import { RouteComponentProps } from 'react-router-dom';
 import { UserReduceStateType } from '../../store/reducers/TypesForUser';
 import { StoryReduceStateType } from '../../store/reducers/TypesForStory';
-import { Dispatch, Action } from 'redux';
-import { AxiosResponse } from 'axios';
-type UserDatatoNull = {
-    auth: boolean | null
-    userData: null
-}
+import { Dispatch } from 'redux';
+
 type props = RouteComponentProps & {
     dispatch: Function
     user: UserReduceStateType
@@ -38,19 +34,25 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
             .then(() => {
                 let userAuth = this.props.user.auth;
                 this.setState({loading: false});
-
                 
+                
+
+                // if user log off but try to get page with private information, he goes to /login page
                 if (!userAuth) {
                     if(reload) {
                         this.props.history.push('/login')
                     }
                 }
+                // if user log in
                 else {
+                    // and reload props that come from route is false then go to the admin page 
+                    // for LoginForm component
                     if(reload === false) {
                         this.props.history.push('/admin')
                     }
                     
                 }
+                console.log(this.props.user.auth);
             })
         }
 

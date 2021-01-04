@@ -1,11 +1,11 @@
-import React, { ChangeEvent, Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Formik, Form, withFormik, FormikProps, FormikHandlers} from 'formik';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Formik, Form } from 'formik';
 import AdminLayout from '../../../hoc/adminLayout';
-import {CreateFormElement} from '../Posts/addition/addition';
-import {StorySchema} from '../Posts/addition/addition';
-// import {ICreateFormElement} from '../Posts/addition/addition'
-import {IStoryData, added, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
+import { CreateFormElement } from '../Posts/addition/addition';
+import { StorySchema } from '../Posts/addition/addition';
+
+import { IStoryData } from '../../../../store/reducers/TypesForStory'
 import { RouteComponentProps } from 'react-router-dom';
 
 import htmlToDraft from 'html-to-draftjs';
@@ -20,14 +20,6 @@ import {connect} from 'react-redux';
 import { RootUserReduce, RootStoryReduce } from '../../../../store/reducers';
 import { UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
-// interface MyValues {
-//     _id: string
-//     name: string
-//     author: string
-//     pages: string
-//     rating: string
-//   }
-
 interface state {
     editorState: any
     editorContent: string
@@ -36,12 +28,11 @@ interface state {
     htmlToEdit: Omit<IStoryData, "content">
 }
 
-interface propsAuth {
-    auth: boolean
-    userData: object
+interface TMatch {
+    id: string;
 }
 
-interface props extends RouteComponentProps {
+interface props extends RouteComponentProps<TMatch> {
     dispatch: Function
     user: UserReduceStateType
     story: {
@@ -51,8 +42,8 @@ interface props extends RouteComponentProps {
             doc: IStoryData 
         }
     }
+    match: any
     // story: StoryReduceStateType
-    match: any  //???????????????????
 }
 
 class EditPost extends Component<props, state> {
@@ -90,8 +81,7 @@ class EditPost extends Component<props, state> {
         if(hasUpdated) {
             this.setState({ success: true })
         }
-        console.log(storyData);
-        
+
         // if we didn't get data ->  got to home page
         if (storyData !== false && storyData !== null) {
             const blocksFromHtml = htmlToDraft(storyData.content)
@@ -113,9 +103,7 @@ class EditPost extends Component<props, state> {
             }
         } else {
             this.props.history.push('/')
-        }
-
-        
+        }    
     }
 
     componentWillUnmount() {
@@ -125,7 +113,6 @@ class EditPost extends Component<props, state> {
     componentDidMount() {
         this.props.dispatch(getStory(this.props.match.params.id));
     }
-
 
     render() {
         return this.state.loading ? 
@@ -145,9 +132,7 @@ class EditPost extends Component<props, state> {
                             ...values,
                             content: stateToHTML(this.state.editorState.getCurrentContent())
                         });
-                    }}
-                
-                
+                    }}       
                 >
                     {({
                         values,
@@ -239,10 +224,7 @@ class EditPost extends Component<props, state> {
                                     
                                 </div>
                                 : null
-                            
-                            
                             }
-
 
                         </Form>
                     )}
@@ -251,11 +233,6 @@ class EditPost extends Component<props, state> {
             </AdminLayout>
         
     }
-}
-
-type TState = {
-    userReduce: propsAuth
-    storyReduce: any
 }
 
 type TGeneralState = {
@@ -272,7 +249,5 @@ const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
         story: state.storyReduce
     }
 }
-
-
 
 export default connect(mapStatetoProps)(EditPost);

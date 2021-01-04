@@ -18,16 +18,19 @@ type tr = {
 
 class Home extends Component<props> {
 
+    // function to get all stories
     componentDidMount() {
         this.props.dispatch(getStories(4,0,'desc'))
     }
 
+    // function for button loadmore, if user wants to see more
     loadmore = () => {
         let storyList = this.props.story.collection;
         let countToSkip = storyList.length;
         this.props.dispatch(getStories(2,countToSkip,'desc',storyList));
     }
 
+    //finish function that use inside render to get generated list of aticles, stories 
     showArtciles = (story:tr) => {
       if(story.collection) {
         const rowsArray:IStoryData[][] = this.rowGenerator(story.collection, 2)
@@ -38,6 +41,16 @@ class Home extends Component<props> {
       }
     }
 
+    //function, where you can select how many rows you want to show
+    //and return Array of arrays with articles (every array inside Array contain articles in amount of "cols" )
+    rowGenerator = (lists:Array<IStoryData>, cols:number) => {
+        const rows = [...Array(Math.ceil(lists.length/cols))];
+        const articlesRows = rows.map((row:[], i:number) => lists.slice(i*cols,i*cols+cols)
+        )
+        return articlesRows
+    }
+
+    // 
     generateRowBlocks = (rows:Array<IStoryData[]>, cl: string) => (
         rows.map((row:Array<IStoryData>, i:number) => (
                 <div className="row" key={i}>
@@ -64,12 +77,7 @@ class Home extends Component<props> {
         )
     )
 
-    rowGenerator = (lists:Array<IStoryData>, cols:number) => {
-        const rows = [...Array(Math.ceil(lists.length/cols))];
-        const articlesRows = rows.map((row:[], i:number) => lists.slice(i*cols,i*cols+cols)
-        )
-        return articlesRows
-    }
+    
 
     render(){
         return (
@@ -77,7 +85,10 @@ class Home extends Component<props> {
                 <div className="row articles_container">
                    {this.showArtciles(this.props.story)}
                 </div>
-
+                
+                {/* if dispatch function return 0 collection, 
+                it means we have problem and can't get articles from database */}
+                
                 {(this.props.story.collection) ?
                     <div 
                         className="loadmore"
@@ -107,7 +118,7 @@ type TGeneralState = {
 }
 
 type MapStateToPropsType = {
-    // story: StoryReduceStateType
+    user: UserReduceStateType
     story: RootStoryReduce
 }
 
@@ -117,7 +128,8 @@ const dispatchToProps = {
 
 function mapStateToProps (state: TGeneralState):MapStateToPropsType {
     return {
-        story: state.storyReduce
+        story: state.storyReduce,
+        user: state.userReduce
     }
 }
 

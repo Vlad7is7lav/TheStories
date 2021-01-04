@@ -10,6 +10,7 @@ type C1 = {
 
 // type C2 = Omit<C1,'auth'>
 
+// Function Component with props that come from index.tsx : showNav and onHideNav
 const MainSideNav:React.FC<C1> = (props):JSX.Element => {
     return (
         <SideNav
@@ -20,6 +21,7 @@ const MainSideNav:React.FC<C1> = (props):JSX.Element => {
                 maxWidth: '220px'
             }}
         >
+            {/* Component that show all items for log off and log in clients */}
             <Items onHideNav={props.onHideNav}/>
             
         </SideNav>

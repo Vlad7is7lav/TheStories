@@ -19,7 +19,6 @@ import {connect} from 'react-redux';
 import { RootStoryReduce, RootUserReduce } from '../../../../store/reducers';
 import { IUserData, UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
-// @ts-nocheck
 interface MyFormValues {
     name: string
     author: string
@@ -34,18 +33,12 @@ type state = {
     success: boolean
 }
 
-interface propsAuth {
-    add: {
-        bookId: string
-    }
-}
-
-
 interface props extends RouteComponentProps {
     dispatch: Function
     user: RootUserReduce
     story: StoryReduceStateType
 }
+
 
 class AddPost extends Component<props, state> {
 
@@ -73,6 +66,7 @@ class AddPost extends Component<props, state> {
         this.props.dispatch(addStory(values))
     }
 
+    // Check if update was successed 
     componentDidUpdate(prevProps:props) {
         const hasChanged = this.props.story !== prevProps.story;
         if(hasChanged) {
@@ -82,10 +76,10 @@ class AddPost extends Component<props, state> {
         }
     }
 
+    // clear redux store
     componentWillUnmount() {
         this.props.dispatch(clearStory());
     }
-
 
     render() {
         return (
@@ -105,12 +99,7 @@ class AddPost extends Component<props, state> {
                             editorState: EditorState.createEmpty(),
                             editorContent:'',
                         })
-                        console.log(this.state.editorState);
-                        console.log(this.state.editorContent);
-                        
                     }}
-                
-                
                 >
                     {({
                         values,

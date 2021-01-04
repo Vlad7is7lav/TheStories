@@ -9,19 +9,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {IStoryData, IUserData} from '../../../../store/reducers/TypesForStory'
-
 import moment from 'moment';
-import { RootUserReduce, RootStoryReduce } from '../../../../store/reducers';
+
+import {IUserData} from '../../../../store/reducers/TypesForStory'
 import { UserReduceStateType } from '../../../../store/reducers/TypesForUser';
 
 
 interface props extends RouteComponentProps {
     user: UserReduceStateType
-}
-
-interface propsAuth {
-    userData: IUserData
 }
 
 const AdminPosts = (props:props) => {
@@ -66,5 +61,4 @@ const AdminPosts = (props:props) => {
     )
 }
 
-
-export default AdminPosts
+export default AdminPosts 

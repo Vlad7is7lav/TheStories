@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_AUTH, USER_LOGOUT, UserReduceStateType, UserReduceActionType} from './TypesForUser';
+import {USER_LOGIN, USER_AUTH, USER_LOGOUT, UserReduceStateType, UserReduceActionType, USER_UPDATE} from './TypesForUser';
 
 // export interface IState {
 //     langName: string,
@@ -10,10 +10,26 @@ type UserDatatoNull = {
     userData: null
 }
 
+type UD = {
+    id: string
+    _id?: string
+    email: string
+    name: string
+    lastname: string
+    age?: string
+    country?: string
+    city?: string
+    favBooks?: any
+    message?: string
+  }
+  
 
-export default function(state={}, action:UserReduceActionType):UserReduceStateType {
+//UserReduceStateType
+// export default function(state={}, action:UserReduceActionType):{auth: boolean | null, userData: UD | false | null} {
+export default function(state:any, action:UserReduceActionType):UserReduceStateType {
     switch(action.type){
         case USER_LOGIN:
+            
             return {...state, auth: action.payload.auth, userData: action.payload.userData};
         
         case USER_AUTH: 
@@ -23,13 +39,25 @@ export default function(state={}, action:UserReduceActionType):UserReduceStateTy
                 userData: action.payload.userData ? action.payload.userData : false
             };
         case USER_LOGOUT: 
+        
         return {
             ...state,
             auth: action.payload.auth,
             userData: null
         }
-        default:
+        case USER_UPDATE: 
+        
             return {
+                ...state,
+                auth: action.payload.auth ? action.payload.auth : false,
+                userData: action.payload.userData ? action.payload.userData : false,
+                success: action.payload.success
+            };
+        default:
+            
+            return {
+                
+                
                 auth: null,
                 userData: null
             }

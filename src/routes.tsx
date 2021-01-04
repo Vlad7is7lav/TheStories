@@ -16,11 +16,7 @@ import AddPost from './components/Users/Admin/Posts/add';
 import EditPost from './components/Users/Admin/Posts/edit';
 import AdminPosts from './components/Users/Admin/Posts/admPosts';
 
-
-interface regProps {
-};
-
-const Routes:React.FC<regProps> = () => {
+const Routes:React.FC = () => {
     return (
         <BrowserRouter>
             <Main>

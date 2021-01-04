@@ -2,8 +2,10 @@ import {
     UserActionType,
     USER_LOGIN, 
     USER_AUTH, 
-    USER_LOGOUT } from '../reducers/TypesForUser';
+    USER_LOGOUT,
+    USER_UPDATE } from '../reducers/TypesForUser';
 import axios from 'axios';
+import { UD } from './../reducers/TypesForUser'
 
 type ValuesType = {
     email: string
@@ -39,4 +41,31 @@ export function logoutUser():UserActionType {
         type: USER_LOGOUT,
         payload: request
     }
+}
+
+export function updateUser(user:Gen):UserActionType {
+    const request = axios.patch('/api/user/update', user)
+    .then( (request) => {return request.data} )
+    
+    return {
+        type: USER_UPDATE,
+        payload: request
+    }
+}
+
+type Gen = {
+    auth: boolean | null,
+    userData: IAdminValues
+}
+
+interface IAdminValues {
+    id: string
+    email: string
+    password?: string
+    name: string
+    lastname?: string
+    age?: string
+    country?: string
+    city?: string
+    favBooks?: string
 }

@@ -1,8 +1,5 @@
 import React from 'react';
-import {Formik, Form, withFormik, FormikProps, FormikHandlers} from 'formik';
 import * as Yup from 'yup'
-
-type out = JSX.Element | null
 
 export interface ICreateFormElement {
     elData: {
@@ -14,10 +11,11 @@ export interface ICreateFormElement {
     placeholder?: string
     onChange: (e: React.FormEvent<EventTarget>) => void
     onBlur: (e: React.FormEvent<EventTarget>) => void
-    errors: string | undefined
-    touched: boolean | undefined
+    // errors: string | undefined
+    // touched: boolean | undefined 
+    errors: any
+    touched: any 
     children?: JSX.Element[]
-
 }
 
 export const StorySchema = Yup.object().shape({
@@ -27,6 +25,7 @@ export const StorySchema = Yup.object().shape({
     rating: Yup.number().required('Required')
 })
 
+//Creating form element for using in Formik
 export const CreateFormElement = (props:ICreateFormElement):any => {
     let template = null
 

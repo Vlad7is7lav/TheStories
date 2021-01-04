@@ -8,7 +8,9 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import { loginUser } from '../../store/actions/user_actions';
+import { UserReduceStateType } from '../../store/reducers/TypesForUser';
 
+// use this in Formik
 interface MyFormValues {
     email: string,
     password: string
@@ -21,11 +23,12 @@ type state = {
 
 interface props extends RouteComponentProps {
     dispatch: Function
-    user: RootUserReduce
+    user: UserReduceStateType
 }
 
 class LoginForm extends Component<props, state> {
 
+    // use this in Formik
     initialValues: MyFormValues = {email: 'vlad111@gmail.com', password: 'passvlad123'}
 
     state = {
@@ -33,6 +36,7 @@ class LoginForm extends Component<props, state> {
         validation: false
     }
 
+    //Scheme check for Formik
     LoginScheme = Yup.object().shape({
         email: Yup.string().trim().email('Invalid email').required('Email is required!'), 
         password: Yup.string().min(8,'The minimum length is 8').trim().required('Password is required!')
@@ -50,6 +54,7 @@ class LoginForm extends Component<props, state> {
         return null
     }
 
+    //call this function when we try to login and get info from server true or false
     componentDidUpdate() {
         if(this.state.success) {
             this.props.history.push('/admin')
@@ -145,14 +150,13 @@ class LoginForm extends Component<props, state> {
     }
 }
 
-
 type TGeneralState= {
     userReduce: RootUserReduce
     storyReduce: RootStoryReduce
 }
 
 type MapStateToPropsType = {
-    user: RootUserReduce
+    user: UserReduceStateType
 }
 
 const dispatchToProps = {

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
 import {getStory, clearStory} from '../../store/actions/story_actions'
-import { RootUserReduce, RootStoryReduce } from '../../store/reducers';
 import {IStoryData} from '../../store/reducers/TypesForStory'
 
 interface IStoryDataWithOwner extends IStoryData {
@@ -34,23 +33,18 @@ type state = {
     }
 }
 
-type TGeneralState = {
-    userReduce: RootUserReduce
-    storyReduce: RootStoryReduce
-}
-
 const Article:React.FC<props> = (props) => {
 
     const article = useSelector((state:state) => state.storyReduce);
     const dispatch = useDispatch();
 
+    //Get and show story with id
     useEffect(() => {
         dispatch(getStory(props.match.params.id));
         return ( () => {dispatch(clearStory())})
-        
-
     }, [dispatch, props])
 
+    //Function to show article that loaded by useEffect
     const showArticle = () => {
         if(article.add) {
             const a = article.add;
