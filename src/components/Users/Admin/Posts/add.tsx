@@ -1,13 +1,14 @@
-import React, { ChangeEvent, Component } from 'react';
+import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Formik, Form, withFormik, FormikProps, FormikHandlers} from 'formik';
+import {Formik, Form } from 'formik';
 import AdminLayout from '../../../hoc/adminLayout';
 import {CreateFormElement} from '../Posts/addition/addition';
 import {StorySchema} from '../Posts/addition/addition';
-// import {ICreateFormElement} from '../Posts/addition/addition'
-import {IStoryData, AddStoryResponseType, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
+import {IStoryData, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
 import { RouteComponentProps } from 'react-router-dom';
 
+import htmlToDraft from 'html-to-draftjs';
+import getText from 'html-to-draftjs';
 import { EditorState } from "draft-js";
 import {stateToHTML} from 'draft-js-export-html';
 import { Editor } from 'react-draft-wysiwyg';
@@ -17,14 +18,14 @@ import {addStory, clearStory} from '../../../../store/actions/story_actions';
 
 import {connect} from 'react-redux';
 import { RootStoryReduce, RootUserReduce } from '../../../../store/reducers';
-import { IUserData, UserReduceStateType } from '../../../../store/reducers/TypesForUser';
+import { string } from 'yup';
 
 interface MyFormValues {
     name: string
     author: string
     content?: string
     pages: string
-    rating: string
+    // rating: string
   }
 
 type state = {
@@ -45,8 +46,7 @@ class AddPost extends Component<props, state> {
     initialValues: MyFormValues = {
         name: '', 
         author: '',
-        pages: '',
-        rating: ''
+        pages: ''
     }
 
     state={
@@ -55,14 +55,40 @@ class AddPost extends Component<props, state> {
         success: false
     }
 
+    onWordsCount = (text:any) => {
+        if (!text) return;
+        let newText:any = getText(text).contentBlocks[0].getText();
+
+        const p1 = new RegExp('/(^\s*)|(\s*$)/gi');
+        const p2 = new RegExp('/[ ]{2,}/gi');
+        const p3 = new RegExp('/\n /');
+        
+        newText = newText.replace(p1,"");
+        newText = newText.replace(p2," ");
+        newText = newText.replace(p3,"\n");
+        
+        
+        let counterArray:Array<any> = newText.split(' ');
+        console.log(newText, 'rr');
+        for(let i=0; i < counterArray.length; i++){
+            if(counterArray[i] == "" || counterArray[i].length < 2) {
+                console.log(counterArray, 'tt');
+                counterArray.splice(i, 1);
+                i--;
+            }
+        }  
+    }
+
     onEditorStateChange = (editorState:any) => {
         this.setState({
             editorState,
             editorContent: stateToHTML(editorState.getCurrentContent())
-        })
+        });
+        
     }
 
     postStory = (values:IStoryData) => {
+        this.onWordsCount(values.content);
         this.props.dispatch(addStory(values))
     }
 
@@ -150,7 +176,7 @@ class AddPost extends Component<props, state> {
                                 touched={touched.pages}                            
                             />  
 
-                            <CreateFormElement 
+                            {/* <CreateFormElement 
                                 elData={{element: 'select', value: values.rating}}
                                 name="rating"
                                 onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
@@ -164,7 +190,7 @@ class AddPost extends Component<props, state> {
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
-                            </CreateFormElement>
+                            </CreateFormElement> */}
 
                             
 
@@ -186,11 +212,8 @@ class AddPost extends Component<props, state> {
                                     : 
                                     null
                                 }
-                                    
                                 </div>
                                 : null
-                            
-                            
                             }
 
 
@@ -218,8 +241,4 @@ const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     }
 }
 
-
-
 export default connect<MapStateToPropsType, {},{},TGeneralState>(mapStatetoProps)(AddPost);
-
-// export default AddPost

@@ -1,11 +1,10 @@
-import React, {useState, useEffect, Dispatch} from 'react';
-import { Form, Formik,Field } from 'formik';
+import React, {useState, useEffect } from 'react';
+import { Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import  { auth, updateUser } from '../../../store/actions/user_actions';
 import { CreateFormElement } from './Posts/addition/addition';
-import { UserActionType, UserReduceActionType, UserReduceStateType } from '../../../store/reducers/TypesForUser';
+import { UserReduceActionType, UserReduceStateType } from '../../../store/reducers/TypesForUser';
 import { RootUserReduce, RootStoryReduce } from '../../../store/reducers';
-import { Action } from 'redux';
 
 interface IAdminValues {
     id: string
@@ -17,11 +16,6 @@ interface IAdminValues {
     country?: string
     city?: string
     favBooks?: string
-}
-
-type UpdateUserResponseType = {
-    success: boolean
-    doc: IAdminValues
 }
 
 type props  = {

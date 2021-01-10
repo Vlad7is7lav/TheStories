@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { getStories } from '../../store/actions/story_actions';
-import { added, IStoryData, StoryReduceStateType } from '../../store/reducers/TypesForStory';
+import { IStoryData } from '../../store/reducers/TypesForStory';
 import { RouteComponentProps } from 'react-router-dom';
 import {Link} from 'react-router-dom'
 import { UserReduceStateType } from '../../store/reducers/TypesForUser';
@@ -69,7 +69,6 @@ class Home extends Component<props> {
                                     </div>
                                 </Link>
                             </div>
-                            
                         ))
                     }
                 </div>

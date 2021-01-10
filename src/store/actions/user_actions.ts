@@ -4,8 +4,8 @@ import {
     USER_AUTH, 
     USER_LOGOUT,
     USER_UPDATE } from '../reducers/TypesForUser';
+    
 import axios from 'axios';
-import { UD } from './../reducers/TypesForUser'
 
 type ValuesType = {
     email: string

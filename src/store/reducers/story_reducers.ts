@@ -1,13 +1,11 @@
 import {
   StoryReduceStateType,
-  AddStoryType,
   STORY_ADD,
   STORY_CLEAR,
   STORY_GET,
   STORY_UPDATE,
   STORIES_GET,
   StoryReduceActionType,
-  added,
   IStoryData
 } from './TypesForStory'
 
@@ -52,9 +50,3 @@ export type top = {
           return state
       }
     }
-
-    // {
-    //   add: null,
-    //   update: null,
-    //   collection: []
-    // }

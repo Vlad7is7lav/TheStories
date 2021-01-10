@@ -1,7 +1,5 @@
-import React, { Component, PureComponent } from 'react';
-import { bindActionCreators, Dispatch , Action, compose} from 'redux';
-import axios from 'axios';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { Component } from 'react';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import {RootStoryReduce, RootUserReduce} from '../../store/reducers/index';
 import { RouteComponentProps } from 'react-router-dom';

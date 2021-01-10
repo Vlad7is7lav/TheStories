@@ -11,7 +11,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import htmlToDraft from 'html-to-draftjs';
 import { EditorState, ContentState } from "draft-js";
 import {stateToHTML} from 'draft-js-export-html';
-import { Editor, EditorProps } from 'react-draft-wysiwyg';
+import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import {updateStory, clearStory, getStory} from '../../../../store/actions/story_actions';
@@ -57,8 +57,8 @@ class EditPost extends Component<props, state> {
             _id: '',
             name: '',
             author: '',
-            pages: '',
-            rating: ''
+            pages: ''
+            // rating: ''
         }
     }
 
@@ -96,8 +96,8 @@ class EditPost extends Component<props, state> {
                         _id: storyData._id,
                         author: storyData.author,
                         name: storyData.name,
-                        pages: storyData.pages,
-                        rating: storyData.rating
+                        pages: storyData.pages
+                        // rating: storyData.rating
                     }
                 })
             }
@@ -188,7 +188,7 @@ class EditPost extends Component<props, state> {
                                 touched={touched.pages}                            
                             />  
 
-                            <CreateFormElement 
+                            {/* <CreateFormElement 
                                 elData={{element: 'select', value: values.rating}}
                                 name="rating"
                                 onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
@@ -202,7 +202,7 @@ class EditPost extends Component<props, state> {
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
-                            </CreateFormElement>
+                            </CreateFormElement> */}
 
                             
 

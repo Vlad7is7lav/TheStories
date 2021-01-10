@@ -1,4 +1,4 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import SideNav from 'react-simple-sidenav';
 import Items from './items';
 // import C1 from './items';
@@ -24,8 +24,7 @@ const MainSideNav:React.FC<C1> = (props):JSX.Element => {
             {/* Component that show all items for log off and log in clients */}
             <Items onHideNav={props.onHideNav}/>
             
-        </SideNav>
-        
+        </SideNav>  
     )
 }
 

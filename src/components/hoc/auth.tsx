@@ -52,7 +52,6 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
                     }
                     
                 }
-                console.log(this.props.user.auth);
             })
         }
 

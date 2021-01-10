@@ -78,11 +78,7 @@ type MapStateToPropsType = {
     user: RootUserReduce
 }
 
-const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
-    console.log(state.userReduce);
-
-    // console.log('ee', state.storyReduce);
-    
+const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {    
     return {
         user: state.userReduce
     }

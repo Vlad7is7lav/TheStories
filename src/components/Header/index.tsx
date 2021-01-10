@@ -31,7 +31,7 @@ const Header:React.FC = (props) => {
                         fontSize: '25px'
                     }}
                 />
-
+                
             </div>
             {/* Main component for side panel */}
             <MainSideNav 

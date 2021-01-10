@@ -21,8 +21,8 @@ export interface ICreateFormElement {
 export const StorySchema = Yup.object().shape({
     name: Yup.string().required('Required'), 
     author: Yup.string().required('Required'),
-    pages: Yup.number().required('Required'),
-    rating: Yup.number().required('Required')
+    pages: Yup.number().required('Required')
+    // rating: Yup.number().required('Required')
 })
 
 //Creating form element for using in Formik

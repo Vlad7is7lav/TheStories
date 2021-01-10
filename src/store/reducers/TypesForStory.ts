@@ -32,7 +32,7 @@ export interface IStoryData {
   name: string, 
   author: string,
   pages: string,
-  rating: string,
+  rating?: string,
   content: string,
   ownerId?: any
 }
