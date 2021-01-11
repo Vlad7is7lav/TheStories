@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import AdminLayout from '../../../hoc/adminLayout';
-import { CreateFormElement } from '../Posts/addition/addition';
+import { CreateFormElement, onWordsCount } from '../Posts/addition/addition';
 import { StorySchema } from '../Posts/addition/addition';
 
 import { IStoryData } from '../../../../store/reducers/TypesForStory'
@@ -57,7 +57,7 @@ class EditPost extends Component<props, state> {
             _id: '',
             name: '',
             author: '',
-            pages: ''
+            words: 0
             // rating: ''
         }
     }
@@ -68,7 +68,21 @@ class EditPost extends Component<props, state> {
         })
     }
 
+    onBlurWordsCount = (content: any) => {
+
+        let num:number = onWordsCount(stateToHTML(content.getCurrentContent()));
+        console.log(num, 'fromWords', stateToHTML(this.state.editorState.getCurrentContent()));
+        this.setState(prevState => ({
+            htmlToEdit: {
+                ...prevState.htmlToEdit,
+                words: num
+            }
+        }));
+        // this.state.htmlToEdit.words = num
+    }
+
     onUpdateStory = (values:IStoryData) => {
+        this.onBlurWordsCount(this.state.editorState);
         this.props.dispatch(updateStory(values))
     }
 
@@ -96,7 +110,7 @@ class EditPost extends Component<props, state> {
                         _id: storyData._id,
                         author: storyData.author,
                         name: storyData.name,
-                        pages: storyData.pages
+                        words: storyData.words
                         // rating: storyData.rating
                     }
                 })
@@ -164,6 +178,7 @@ class EditPost extends Component<props, state> {
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
                                 onEditorStateChange={this.onEditorStateChange}
+                                onBlur={(e)=> this.onBlurWordsCount(this.state.editorState)}
                             />
 
                             <h4>Story info</h4>
@@ -179,13 +194,13 @@ class EditPost extends Component<props, state> {
                             />
 
                             <CreateFormElement 
-                                elData={{element: 'input', type: 'text', value: values.pages}}
-                                placeholder="Pages"
-                                name="pages"
+                                elData={{element: 'input', type: 'text', value: values.words}}
+                                placeholder="Words"
+                                name="words"
                                 onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
                                 onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
-                                errors={errors.pages}
-                                touched={touched.pages}                            
+                                errors={errors.words}
+                                touched={touched.words}                            
                             />  
 
                             {/* <CreateFormElement 
@@ -207,7 +222,7 @@ class EditPost extends Component<props, state> {
                             
 
                             <button type="submit">
-                                Add story
+                                Update story
                             </button>
 
                             {

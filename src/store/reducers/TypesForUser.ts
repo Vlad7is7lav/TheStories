@@ -74,7 +74,7 @@ export interface IUserData {
   name: string
   author: string
   content: number
-  pages: string
+  words: string
   rating: number
   ownerId: string
   createdAt: Date

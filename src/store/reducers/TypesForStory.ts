@@ -19,7 +19,7 @@ export interface IUserData {
   name: string
   author: string
   content: number
-  pages: string
+  words: number
   rating: number
   ownerId: string
   createdAt: Date
@@ -31,7 +31,7 @@ export interface IStoryData {
   _id?: string
   name: string, 
   author: string,
-  pages: string,
+  words: number,
   rating?: string,
   content: string,
   ownerId?: any
@@ -50,7 +50,7 @@ type UpdateStoryResponseType = {
     _id?: string
     name: string, 
     author: string,
-    pages: string,
+    words: number,
     rating: string,
     content: string,
     ownerId?: string
@@ -62,7 +62,7 @@ type GetStoryResponseType = {
   _id?: string
   name: string, 
   author: string,
-  pages: string,
+  words: number,
   rating: string,
   content: string,
   ownerId?: string

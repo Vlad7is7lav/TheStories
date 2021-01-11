@@ -54,7 +54,7 @@ const Article:React.FC<props> = (props) => {
                         <h3>{a.name}</h3>
                         <div><span>Author:</span>{a.author}</div> 
                         <div><span>Rating:</span>{a.rating}</div> 
-                        <div><span>Pages:</span>{a.pages}</div>
+                        <div><span>Words:</span>{a.words}</div>
                     </div>
                     <div className="content">
                         <div 

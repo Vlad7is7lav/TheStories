@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {Formik, Form } from 'formik';
 import AdminLayout from '../../../hoc/adminLayout';
-import {CreateFormElement} from '../Posts/addition/addition';
+import {CreateFormElement, onWordsCount} from '../Posts/addition/addition';
 import {StorySchema} from '../Posts/addition/addition';
 import {IStoryData, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
 import { RouteComponentProps } from 'react-router-dom';
 
-import htmlToDraft from 'html-to-draftjs';
-import getText from 'html-to-draftjs';
 import { EditorState } from "draft-js";
 import {stateToHTML} from 'draft-js-export-html';
 import { Editor } from 'react-draft-wysiwyg';
@@ -24,7 +22,7 @@ interface MyFormValues {
     name: string
     author: string
     content?: string
-    pages: string
+    words: number
     // rating: string
   }
 
@@ -43,52 +41,35 @@ interface props extends RouteComponentProps {
 
 class AddPost extends Component<props, state> {
 
-    initialValues: MyFormValues = {
-        name: '', 
-        author: '',
-        pages: ''
-    }
-
     state={
         editorState: EditorState.createEmpty(),
         editorContent:'',
-        success: false
+        success: false,
     }
 
-    onWordsCount = (text:any) => {
-        if (!text) return;
-        let newText:any = getText(text).contentBlocks[0].getText();
-
-        const p1 = new RegExp('/(^\s*)|(\s*$)/gi');
-        const p2 = new RegExp('/[ ]{2,}/gi');
-        const p3 = new RegExp('/\n /');
-        
-        newText = newText.replace(p1,"");
-        newText = newText.replace(p2," ");
-        newText = newText.replace(p3,"\n");
-        
-        
-        let counterArray:Array<any> = newText.split(' ');
-        console.log(newText, 'rr');
-        for(let i=0; i < counterArray.length; i++){
-            if(counterArray[i] == "" || counterArray[i].length < 2) {
-                console.log(counterArray, 'tt');
-                counterArray.splice(i, 1);
-                i--;
-            }
-        }  
+    initialValues: MyFormValues = {
+        name: '', 
+        author: '',
+        words: 0
     }
+
+    
 
     onEditorStateChange = (editorState:any) => {
         this.setState({
             editorState,
             editorContent: stateToHTML(editorState.getCurrentContent())
-        });
-        
+        }); 
+    }
+
+    onBlurWordsCount = (content:any) => {
+        let num:number = onWordsCount(content);
+        console.log(num, 'fromWords');
+        this.initialValues.words = num   
     }
 
     postStory = (values:IStoryData) => {
-        this.onWordsCount(values.content);
+        onWordsCount(values.content);
         this.props.dispatch(addStory(values))
     }
 
@@ -152,6 +133,7 @@ class AddPost extends Component<props, state> {
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
                                 onEditorStateChange={this.onEditorStateChange}
+                                onBlur={()=> this.onBlurWordsCount(this.state.editorContent)}
                             />
 
                             <h4>Story info</h4>
@@ -167,13 +149,13 @@ class AddPost extends Component<props, state> {
                             />
 
                             <CreateFormElement 
-                                elData={{element: 'input', type: 'text', value: values.pages}}
-                                placeholder="Pages"
-                                name="pages"
+                                elData={{element: 'input', type: 'text', value: values.words}}
+                                placeholder="Words"
+                                name="words"
                                 onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
                                 onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
-                                errors={errors.pages}
-                                touched={touched.pages}                            
+                                errors={errors.words}
+                                touched={touched.words}                            
                             />  
 
                             {/* <CreateFormElement 

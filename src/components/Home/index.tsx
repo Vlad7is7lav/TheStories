@@ -65,7 +65,7 @@ class Home extends Component<props> {
                                     <div className="content">
                                        <div><span>Author:</span>{el.author}</div> 
                                        <div><span>Our rating:</span>{el.rating}</div> 
-                                       <div><span>Pages:</span>{el.pages}</div> 
+                                       <div><span>Words:</span>{el.words}</div> 
                                     </div>
                                 </Link>
                             </div>
