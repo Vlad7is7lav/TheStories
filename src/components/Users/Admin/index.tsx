@@ -33,7 +33,6 @@ const Admin: React.FC<props> = (props) => {
     const userinfo = useSelector((state:TGeneralState) => state.userReduce);
     const dispatch = useDispatch();
     const [success, setSuccess] = useState<boolean>(false)
-    console.log(userinfo)
     
     useEffect(()=> {
         dispatch(auth());
@@ -73,7 +72,6 @@ const Admin: React.FC<props> = (props) => {
                         go(response.payload.success);
                     }
                 })
-                console.log('Update UserInfo:' ,props.user.auth);
             }}
             >
                 {

@@ -16,7 +16,6 @@ import {addStory, clearStory} from '../../../../store/actions/story_actions';
 
 import {connect} from 'react-redux';
 import { RootStoryReduce, RootUserReduce } from '../../../../store/reducers';
-import { string } from 'yup';
 
 interface MyFormValues {
     name: string
@@ -30,6 +29,7 @@ type state = {
     editorState: any
     editorContent: string
     success: boolean
+    words: number
 }
 
 interface props extends RouteComponentProps {
@@ -45,12 +45,13 @@ class AddPost extends Component<props, state> {
         editorState: EditorState.createEmpty(),
         editorContent:'',
         success: false,
+        words: 0
     }
 
     initialValues: MyFormValues = {
         name: '', 
         author: '',
-        words: 0
+        words: this.state.words
     }
 
     
@@ -60,16 +61,18 @@ class AddPost extends Component<props, state> {
             editorState,
             editorContent: stateToHTML(editorState.getCurrentContent())
         }); 
+        // this.onBlurWordsCount(this.state.editorContent)
     }
 
     onBlurWordsCount = (content:any) => {
         let num:number = onWordsCount(content);
-        console.log(num, 'fromWords');
+
         this.initialValues.words = num   
+        this.setState({words: num})
     }
 
     postStory = (values:IStoryData) => {
-        onWordsCount(values.content);
+        values.words = onWordsCount(values.content);
         this.props.dispatch(addStory(values))
     }
 
@@ -82,6 +85,8 @@ class AddPost extends Component<props, state> {
             })
         }
     }
+
+    
 
     // clear redux store
     componentWillUnmount() {
@@ -133,8 +138,17 @@ class AddPost extends Component<props, state> {
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
                                 onEditorStateChange={this.onEditorStateChange}
-                                onBlur={()=> this.onBlurWordsCount(this.state.editorContent)}
+                                onChange={()=> this.onBlurWordsCount(this.state.editorContent)}
+                                // onBlur={()=> this.onBlurWordsCount(this.state.editorContent)}
                             />
+
+                            <div className="row">
+                                <div className="twelve_columns">
+                                    <div className="u-full-width">
+                                        Words: {this.state.words}
+                                    </div> 
+                                </div>
+                            </div>
 
                             <h4>Story info</h4>
 
@@ -147,34 +161,7 @@ class AddPost extends Component<props, state> {
                                 errors={errors.author}
                                 touched={touched.author}                            
                             />
-
-                            <CreateFormElement 
-                                elData={{element: 'input', type: 'text', value: values.words}}
-                                placeholder="Words"
-                                name="words"
-                                onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
-                                onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
-                                errors={errors.words}
-                                touched={touched.words}                            
-                            />  
-
-                            {/* <CreateFormElement 
-                                elData={{element: 'select', value: values.rating}}
-                                name="rating"
-                                onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
-                                onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
-                                errors={errors.rating}
-                                touched={touched.rating}                            
-                            > 
-                                <option defaultChecked>Select a rating</option>
-                                <option value="1" >1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </CreateFormElement> */}
-
-                            
+                           
 
                             <button type="submit">
                                 Add story
@@ -185,14 +172,14 @@ class AddPost extends Component<props, state> {
 
                                 <div className="success_entry">
                                     <div>Story is added!</div>
-                                    {(this.props.story.add != null) ? 
+                                    {(this.props.story != null) ? 
                                     
-                                    <Link to={`/article/${this.props.story.add.bookId}`}>
+                                    <Link to={`/article/${this.props.story.add?.bookId}`}>
                                         Find your story here...
                                     </Link>
                                     
                                     : 
-                                    null
+                                    'null '
                                 }
                                 </div>
                                 : null
@@ -214,8 +201,13 @@ type TGeneralState = {
 }
 
 type MapStateToPropsType = {
-    story: StoryReduceStateType
+    story: any
+    // story: StoryReduceStateType
 }
+
+const dispatchToProps = {
+    addStory: addStory
+  }
 
 const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     return {
@@ -223,4 +215,4 @@ const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
     }
 }
 
-export default connect<MapStateToPropsType, {},{},TGeneralState>(mapStatetoProps)(AddPost);
+export default connect<MapStateToPropsType, typeof dispatchToProps, {},TGeneralState>(mapStatetoProps)(AddPost);

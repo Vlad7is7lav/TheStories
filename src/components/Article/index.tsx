@@ -64,7 +64,7 @@ const Article:React.FC<props> = (props) => {
                         </div>
                     </div>
                     <div>
-                        <i>Reviewed by {a.ownerId.name}</i>
+                        {/* <i>Reviewed by {a.ownerId.name}</i> */}
                     </div>
                 </div>
             )

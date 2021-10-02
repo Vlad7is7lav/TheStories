@@ -3,7 +3,8 @@ import {
     USER_LOGIN, 
     USER_AUTH, 
     USER_LOGOUT,
-    USER_UPDATE } from '../reducers/TypesForUser';
+    USER_UPDATE,
+    USER_REGISTER } from '../reducers/TypesForUser';
     
 import axios from 'axios';
 
@@ -13,11 +14,22 @@ type ValuesType = {
 }
 
 export function loginUser({email, password}:ValuesType):UserActionType {
+    
     const request = axios.post('/api/user/login', {email, password})
     .then((request) => {return request.data})
     
     return {
         type: USER_LOGIN,
+        payload: request
+    }
+}
+
+export function registerUser({email, password}:ValuesType):UserActionType {
+    const request = axios.post('/api/user/register', {email, password})
+    .then((request) => {return request.data})
+    
+    return {
+        type: USER_REGISTER,
         payload: request
     }
 }

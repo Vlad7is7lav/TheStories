@@ -27,24 +27,28 @@ export const StorySchema = Yup.object().shape({
 })
 
 export const onWordsCount = (text:any):number => {
-    console.log(text)
     if (!text) return 0;
-    let newText:any = getText(text).contentBlocks[0].getText();
+    let newText = '';
+    let contentBlocksArray = getText(text).contentBlocks;
 
-    const p1 = new RegExp('/(^\s*)|(\s*$)/gi');
-    const p2 = new RegExp('/[ ]{2,}/gi');
-    const p3 = new RegExp('/\n /');
+    for(let i = 0; i < contentBlocksArray.length; i++) {
+        newText = newText + contentBlocksArray[i].getText() + ' ';
+    }
+
+    
+    const p1 = new RegExp(/(^\s*)|(\s*$)/gi);
+    const p2 = new RegExp(/[ ]{2,}/gi);
+    const p3 = new RegExp(/\n /);
     
     newText = newText.replace(p1,"");
     newText = newText.replace(p2," ");
     newText = newText.replace(p3,"\n");
     
-    
+    // if (newText == "") return 0;
     let counterArray:Array<any> = newText.split(' ');
-    console.log(newText, 'rr');
     for(let i=0; i < counterArray.length; i++){
-        if(counterArray[i] == "" || counterArray[i].length < 2) {
-            console.log(counterArray, 'tt');
+        if(counterArray[i].length < 2) {
+
             counterArray.splice(i, 1);
             i--;
         }

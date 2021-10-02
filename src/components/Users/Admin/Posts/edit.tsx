@@ -64,14 +64,14 @@ class EditPost extends Component<props, state> {
 
     onEditorStateChange = (editorState:any) => {
         this.setState({
-            editorState
+            editorState,
+            editorContent: stateToHTML(editorState.getCurrentContent())
         })
     }
 
     onBlurWordsCount = (content: any) => {
-
-        let num:number = onWordsCount(stateToHTML(content.getCurrentContent()));
-        console.log(num, 'fromWords', stateToHTML(this.state.editorState.getCurrentContent()));
+        let num:number = onWordsCount(content);
+        // let num:number = onWordsCount(stateToHTML(content.getCurrentContent()));
         this.setState(prevState => ({
             htmlToEdit: {
                 ...prevState.htmlToEdit,
@@ -82,7 +82,7 @@ class EditPost extends Component<props, state> {
     }
 
     onUpdateStory = (values:IStoryData) => {
-        this.onBlurWordsCount(this.state.editorState);
+        this.onBlurWordsCount(this.state.editorContent);
         this.props.dispatch(updateStory(values))
     }
 
@@ -178,7 +178,8 @@ class EditPost extends Component<props, state> {
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
                                 onEditorStateChange={this.onEditorStateChange}
-                                onBlur={(e)=> this.onBlurWordsCount(this.state.editorState)}
+                                // onBlur={(e)=> this.onBlurWordsCount(this.state.editorState)}
+                                onChange={()=> this.onBlurWordsCount(this.state.editorContent)}
                             />
 
                             <h4>Story info</h4>
@@ -200,8 +201,17 @@ class EditPost extends Component<props, state> {
                                 onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
                                 onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
                                 errors={errors.words}
-                                touched={touched.words}                            
+                                touched={touched.words}       
+                                                     
                             />  
+
+                            <div className="row">
+                                <div className="twelve_columns">
+                                    <div className="u-full-width">
+                                        Words: {this.state.htmlToEdit.words}
+                                    </div> 
+                                </div>
+                            </div>
 
                             {/* <CreateFormElement 
                                 elData={{element: 'select', value: values.rating}}

@@ -6,17 +6,20 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import { loginUser } from '../../store/actions/user_actions';
+import { registerUser } from '../../store/actions/user_actions';
 import { UserReduceStateType } from '../../store/reducers/TypesForUser';
 
 // use this in Formik
 interface MyFormValues {
     email: string,
-    password: string
+    password: string,
+    type: String
   }
 
 type state = {
     success: boolean
     validation: boolean
+    registered: null | boolean | 'ERROR'
 }
 
 interface props extends RouteComponentProps {
@@ -27,11 +30,13 @@ interface props extends RouteComponentProps {
 class LoginForm extends Component<props, state> {
 
     // use this in Formik
-    initialValues: MyFormValues = {email: 'vlad111@gmail.com', password: 'passvlad123'}
+    // initialValues: MyFormValues = {email: 'vlad111@gmail.com', password: 'passvlad123'}
+    initialValues: MyFormValues = {email: '', password: '', type: "null"}
 
     state = {
         success: false,
-        validation: false
+        validation: false,
+        registered: null
     }
 
     //Scheme check for Formik
@@ -39,6 +44,10 @@ class LoginForm extends Component<props, state> {
         email: Yup.string().trim().email('Invalid email').required('Email is required!'), 
         password: Yup.string().min(8,'The minimum length is 8').trim().required('Password is required!')
     })
+
+    doRegister = () => {
+
+    }
 
     static getDerivedStateFromProps(props:props, state:state) {
         
@@ -72,6 +81,7 @@ class LoginForm extends Component<props, state> {
                         initialValues={this.initialValues}
                         validationSchema={this.LoginScheme}
                         onSubmit={(values) => {
+                            (values.type === 'Login') ? 
                             this.props.dispatch(loginUser(values))
                             .then(() => {
                                 if(!this.props.user.auth){                                    
@@ -81,7 +91,35 @@ class LoginForm extends Component<props, state> {
                                 }
                                 
                             })
+                            :
+                            this.props.dispatch(registerUser(values))
+                            .then(() => {
+                                this.setState({validation: false});
+                                if(this.props.user.registered) {
+                                    this.setState({registered: true})
+                                }
+                                else if(!this.props.user.success){                                    
+                                    this.setState({
+                                        registered: 'ERROR'
+                                    })
+                                } else {
+                                    this.setState({
+                                        registered: false
+                                    })
+                                    setTimeout(() => {
+                                        this.props.dispatch(loginUser(values))
+                                        .then(() => {
+                                            if(!this.props.user.success){                                    
+                                                this.setState({
+                                                    validation: true
+                                                })
+                                            }    
+                                        })
+                                    }, 1500)
+                                }
+                            })
                         }}
+                        
                     >
 
                         {props => (
@@ -128,14 +166,38 @@ class LoginForm extends Component<props, state> {
                                 }
                                 </div>
 
-                                <button type="submit">
+                                <button type="submit" onClick={() => props.setFieldValue('type', 'Login')}>
                                     Login
                                 </button>
+                                <br/>
+                                <button type="submit" onClick={() => props.setFieldValue('type', 'Register')}>
+                                    Register
+                                </button>
+
                                 <br/>
                                 {
                                     this.state.validation ?
                                     <div className="error_label">
                                         Error, please try again
+                                    </div>
+                                    :
+                                    null
+                                }
+
+                                {   
+                                    this.state.registered === true ?
+                                    <div className="error_label">
+                                        Your email already used. 
+                                    </div>
+                                    :   
+                                    this.state.registered === false ?
+                                    <div className="registered_label">
+                                       Welcome! You are registered!  
+                                    </div>
+                                    :
+                                    this.state.registered === 'ERROR' ?
+                                    <div className="error_label">
+                                       Something went wrong. Try again, please!  
                                     </div>
                                     :
                                     null

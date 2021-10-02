@@ -40,7 +40,7 @@ export interface IStoryData {
 export type AddStoryResponseType = {
   post: boolean, 
   bookId: string,
-  success?: string
+  success?: any
 }
 
 type UpdateStoryResponseType = {
@@ -88,7 +88,8 @@ export type StoryReduceActionType = {
 }
 
 export type StoryReduceStateType = {
-  add: ActionsType | null
+  // add: ActionsType | null
+  add: AddStoryResponseType | null
   update: ActionsType | null
   collection: Array<IStoryData>
 }

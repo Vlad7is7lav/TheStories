@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_AUTH, USER_LOGOUT, UserReduceStateType, UserReduceActionType, USER_UPDATE} from './TypesForUser';
+import {USER_LOGIN, USER_AUTH, USER_LOGOUT, UserReduceStateType, UserReduceActionType, USER_UPDATE, USER_REGISTER} from './TypesForUser';
 
 //UserReduceStateType
 // export default function(state={}, action:UserReduceActionType):{auth: boolean | null, userData: UD | false | null} {
@@ -7,6 +7,14 @@ export default function(state:any, action:UserReduceActionType):UserReduceStateT
         case USER_LOGIN:
             
             return {...state, auth: action.payload.auth, userData: action.payload.userData};
+        
+        case USER_REGISTER:
+        
+            return {...state, 
+                auth: action.payload.auth, 
+                userData: action.payload.userData,
+                success: action.payload.success,
+                registered: action.payload.registered};
         
         case USER_AUTH: 
         

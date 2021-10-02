@@ -26,7 +26,6 @@ const Logout:React.FC<props> = (props) => {
 
     useEffect(()=>{
         if (logout.auth === null){
-            console.log(logout.auth);
             
             setTimeout(()=>{
                 props.history.push('/')

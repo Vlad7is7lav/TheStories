@@ -34,8 +34,6 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
             .then(() => {
                 let userAuth = this.props.user.auth;
                 this.setState({loading: false});
-                
-                
 
                 // if user log off but try to get page with private information, he goes to /login page
                 if (!userAuth) {
@@ -43,14 +41,14 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
                         this.props.history.push('/login')
                     }
                 }
+
                 // if user log in
                 else {
                     // and reload props that come from route is false then go to the admin page 
                     // for LoginForm component
                     if(reload === false) {
                         this.props.history.push('/admin')
-                    }
-                    
+                    }   
                 }
             })
         }
@@ -69,8 +67,6 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
         userReduce: RootUserReduce
         storyReduce: RootStoryReduce
     }
-
-   
    
     type MapStateToPropsType = {
         user: UserReduceStateType
@@ -86,6 +82,5 @@ export default function(ComposedClass:TComposedClass, reload?:boolean){
         auth: auth,
         dispatch
       });
-
     return connect<MapStateToPropsType, typeof mapDispatchToProps, {} , TGeneralState>(mapStateToProps, mapDispatchToProps)(AuthCheck)
 }

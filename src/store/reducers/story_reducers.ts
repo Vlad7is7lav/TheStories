@@ -1,20 +1,20 @@
 import {
-  StoryReduceStateType,
   STORY_ADD,
   STORY_CLEAR,
   STORY_GET,
   STORY_UPDATE,
   STORIES_GET,
-  StoryReduceActionType,
   IStoryData
 } from './TypesForStory'
+
+import {ActionSuper} from '../actions/story_actions'
 
 export type top = {
   type: typeof STORY_ADD | typeof STORY_CLEAR | typeof STORY_GET | typeof STORY_UPDATE | typeof STORIES_GET
   payload: Array<IStoryData>
 }
 
-  export default function(state={add: null, update: null, collection: []}, action:top & StoryReduceActionType):StoryReduceStateType {
+  export default function(state={add: null, update: null, collection: []}, action:ActionSuper) {
     switch(action.type){
       case STORY_ADD:
         return {

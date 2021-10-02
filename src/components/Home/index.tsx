@@ -9,7 +9,7 @@ import { RootUserReduce, RootStoryReduce } from '../../store/reducers';
 
 type props = RouteComponentProps & {
     dispatch: Function
-    story: RootStoryReduce
+    story: any
 }
 
 type tr = {
