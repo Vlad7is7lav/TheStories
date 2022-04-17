@@ -1,21 +1,24 @@
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Formik, Form } from 'formik';
-import AdminLayout from '../../../hoc/adminLayout';
-import {CreateFormElement, onWordsCount} from '../Posts/addition/addition';
-import {StorySchema} from '../Posts/addition/addition';
-import {IStoryData, StoryReduceStateType} from '../../../../store/reducers/TypesForStory'
-import { RouteComponentProps } from 'react-router-dom';
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { Formik, Form } from "formik"
+import AdminLayout from "../../../hoc/adminLayout"
+import { CreateFormElement, onWordsCount } from "../Posts/addition/addition"
+import { StorySchema } from "../Posts/addition/addition"
+import {
+    IStoryData,
+    StoryReduceStateType,
+} from "../../../../store/reducers/TypesForStory"
+import { RouteComponentProps } from "react-router-dom"
 
-import { EditorState } from "draft-js";
-import {stateToHTML} from 'draft-js-export-html';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from "draft-js"
+import { stateToHTML } from "draft-js-export-html"
+import { Editor } from "react-draft-wysiwyg"
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
-import {addStory, clearStory} from '../../../../store/actions/story_actions';
+import { addStory, clearStory } from "../../../../store/actions/storyActions"
 
-import {connect} from 'react-redux';
-import { RootStoryReduce, RootUserReduce } from '../../../../store/reducers';
+import { connect } from "react-redux"
+import { RootStoryReduce, RootUserReduce } from "../../../../store/reducers"
 
 interface MyFormValues {
     name: string
@@ -23,7 +26,7 @@ interface MyFormValues {
     content?: string
     words: number
     // rating: string
-  }
+}
 
 type state = {
     editorState: any
@@ -38,59 +41,52 @@ interface props extends RouteComponentProps {
     story: StoryReduceStateType
 }
 
-
 class AddPost extends Component<props, state> {
-
-    state={
+    state = {
         editorState: EditorState.createEmpty(),
-        editorContent:'',
+        editorContent: "",
         success: false,
-        words: 0
+        words: 0,
     }
 
     initialValues: MyFormValues = {
-        name: '', 
-        author: '',
-        words: this.state.words
+        name: "",
+        author: "",
+        words: this.state.words,
     }
 
-    
-
-    onEditorStateChange = (editorState:any) => {
+    onEditorStateChange = (editorState: any) => {
         this.setState({
             editorState,
-            editorContent: stateToHTML(editorState.getCurrentContent())
-        }); 
-        // this.onBlurWordsCount(this.state.editorContent)
+            editorContent: stateToHTML(editorState.getCurrentContent()),
+        })
     }
 
-    onBlurWordsCount = (content:any) => {
-        let num:number = onWordsCount(content);
+    onBlurWordsCount = (content: any) => {
+        let num: number = onWordsCount(content)
 
-        this.initialValues.words = num   
-        this.setState({words: num})
+        this.initialValues.words = num
+        this.setState({ words: num })
     }
 
-    postStory = (values:IStoryData) => {
-        values.words = onWordsCount(values.content);
+    postStory = (values: IStoryData) => {
+        values.words = onWordsCount(values.content)
         this.props.dispatch(addStory(values))
     }
 
-    // Check if update was successed 
-    componentDidUpdate(prevProps:props) {
-        const hasChanged = this.props.story !== prevProps.story;
-        if(hasChanged) {
+    // Check if update was successed
+    componentDidUpdate(prevProps: props) {
+        const hasChanged = this.props.story !== prevProps.story
+        if (hasChanged) {
             this.setState({
-                success: true
+                success: true,
             })
         }
     }
 
-    
-
     // clear redux store
     componentWillUnmount() {
-        this.props.dispatch(clearStory());
+        this.props.dispatch(clearStory())
     }
 
     render() {
@@ -101,15 +97,15 @@ class AddPost extends Component<props, state> {
                 <Formik
                     initialValues={this.initialValues}
                     validationSchema={StorySchema}
-                    onSubmit={(values, {resetForm})=>{
+                    onSubmit={(values, { resetForm }) => {
                         this.postStory({
                             ...values,
-                            content: this.state.editorContent
-                        });
-                        resetForm();
+                            content: this.state.editorContent,
+                        })
+                        resetForm()
                         this.setState({
                             editorState: EditorState.createEmpty(),
-                            editorContent:'',
+                            editorContent: "",
                         })
                     }}
                 >
@@ -119,18 +115,25 @@ class AddPost extends Component<props, state> {
                         touched,
                         handleChange,
                         handleBlur,
-                        handleSubmit
-                    })=>(
+                        handleSubmit,
+                    }) => (
                         <Form onSubmit={handleSubmit}>
-
-                            <CreateFormElement 
-                                elData={{element: 'input', type: 'text', value: values.name}}
+                            <CreateFormElement
+                                elData={{
+                                    element: "input",
+                                    type: "text",
+                                    value: values.name,
+                                }}
                                 placeholder="Title of Story"
                                 name="name"
-                                onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
-                                onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
+                                onChange={(e: React.FormEvent<EventTarget>) =>
+                                    handleChange(e)
+                                }
+                                onBlur={(e: React.FormEvent<EventTarget>) =>
+                                    handleBlur(e)
+                                }
                                 errors={errors.name}
-                                touched={touched.name}                            
+                                touched={touched.name}
                             />
 
                             <Editor
@@ -138,57 +141,59 @@ class AddPost extends Component<props, state> {
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
                                 onEditorStateChange={this.onEditorStateChange}
-                                onChange={()=> this.onBlurWordsCount(this.state.editorContent)}
-                                // onBlur={()=> this.onBlurWordsCount(this.state.editorContent)}
+                                onChange={() =>
+                                    this.onBlurWordsCount(
+                                        this.state.editorContent
+                                    )
+                                }
                             />
 
                             <div className="row">
                                 <div className="twelve_columns">
                                     <div className="u-full-width">
                                         Words: {this.state.words}
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
 
                             <h4>Story info</h4>
 
-                            <CreateFormElement 
-                                elData={{element: 'input', type: 'text', value: values.author}}
+                            <CreateFormElement
+                                elData={{
+                                    element: "input",
+                                    type: "text",
+                                    value: values.author,
+                                }}
                                 placeholder="Author's name"
                                 name="author"
-                                onChange={(e: React.FormEvent<EventTarget>)=>handleChange(e)}
-                                onBlur={(e: React.FormEvent<EventTarget>)=>handleBlur(e)}
+                                onChange={(e: React.FormEvent<EventTarget>) =>
+                                    handleChange(e)
+                                }
+                                onBlur={(e: React.FormEvent<EventTarget>) =>
+                                    handleBlur(e)
+                                }
                                 errors={errors.author}
-                                touched={touched.author}                            
+                                touched={touched.author}
                             />
-                           
 
-                            <button type="submit">
-                                Add story
-                            </button>
+                            <button type="submit">Add story</button>
 
-                            {
-                                this.state.success ?
-
+                            {this.state.success ? (
                                 <div className="success_entry">
                                     <div>Story is added!</div>
-                                    {(this.props.story != null) ? 
-                                    
-                                    <Link to={`/article/${this.props.story.add?.bookId}`}>
-                                        Find your story here...
-                                    </Link>
-                                    
-                                    : 
-                                    'null '
-                                }
+                                    {this.props.story != null ? (
+                                        <Link
+                                            to={`/article/${this.props.story.add?.bookId}`}
+                                        >
+                                            Find your story here...
+                                        </Link>
+                                    ) : (
+                                        "null "
+                                    )}
                                 </div>
-                                : null
-                            }
-
-
+                            ) : null}
                         </Form>
                     )}
-
                 </Formik>
             </AdminLayout>
         )
@@ -202,17 +207,21 @@ type TGeneralState = {
 
 type MapStateToPropsType = {
     story: any
-    // story: StoryReduceStateType
 }
 
 const dispatchToProps = {
-    addStory: addStory
-  }
+    addStory: addStory,
+}
 
-const mapStatetoProps = function(state:TGeneralState):MapStateToPropsType {
+const mapStatetoProps = function (state: TGeneralState): MapStateToPropsType {
     return {
-        story: state.storyReduce
+        story: state.storyReduce,
     }
 }
 
-export default connect<MapStateToPropsType, typeof dispatchToProps, {},TGeneralState>(mapStatetoProps)(AddPost);
+export default connect<
+    MapStateToPropsType,
+    typeof dispatchToProps,
+    {},
+    TGeneralState
+>(mapStatetoProps)(AddPost)

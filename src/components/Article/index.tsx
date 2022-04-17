@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { RouteComponentProps } from "react-router-dom"
 
-import {getStory, clearStory} from '../../store/actions/story_actions'
-import {IStoryData} from '../../store/reducers/TypesForStory'
+import { getStory, clearStory } from "../../store/actions/storyActions"
+import { IStoryData } from "../../store/reducers/TypesForStory"
 
 interface IStoryDataWithOwner extends IStoryData {
     ownerId: {
@@ -18,13 +18,6 @@ type props = RouteComponentProps & {
             id: string
         }
     }
-    // story: {
-    //     add: IStoryDataWithOwner | false //if didn't get data then false
-    //     update: {
-    //         success: boolean
-    //         doc: IStoryData
-    //     }
-    // }
 }
 
 type state = {
@@ -33,58 +26,63 @@ type state = {
     }
 }
 
-const Article:React.FC<props> = (props) => {
-
-    const article = useSelector((state:state) => state.storyReduce);
-    const dispatch = useDispatch();
+const Article: React.FC<props> = (props) => {
+    const article = useSelector((state: state) => state.storyReduce)
+    const dispatch = useDispatch()
 
     //Get and show story with id
     useEffect(() => {
-        dispatch(getStory(props.match.params.id));
-        return ( () => {dispatch(clearStory())})
+        dispatch(getStory(props.match.params.id))
+        return () => {
+            dispatch(clearStory())
+        }
     }, [dispatch, props])
 
     //Function to show article that loaded by useEffect
     const showArticle = () => {
-        if(article.add) {
-            const a = article.add;
+        if (article.add) {
+            const a = article.add
             return (
                 <div className="single_article_container">
                     <div className="top">
                         <h3>{a.name}</h3>
-                        <div><span>Author:</span>{a.author}</div> 
-                        <div><span>Rating:</span>{a.rating}</div> 
-                        <div><span>Words:</span>{a.words}</div>
-                    </div>
-                    <div className="content">
-                        <div 
-                            className="article_content" 
-                            dangerouslySetInnerHTML={{
-                            __html: article.add.content}}>
+                        <div>
+                            <span>Author:</span>
+                            {a.author}
+                        </div>
+                        <div>
+                            <span>Rating:</span>
+                            {a.rating}
+                        </div>
+                        <div>
+                            <span>Words:</span>
+                            {a.words}
                         </div>
                     </div>
-                    <div>
-                        {/* <i>Reviewed by {a.ownerId.name}</i> */}
+                    <div className="content">
+                        <div
+                            className="article_content"
+                            dangerouslySetInnerHTML={{
+                                __html: article.add.content,
+                            }}
+                        ></div>
                     </div>
+                    <div></div>
                 </div>
             )
         }
     }
 
     return (
-            <div className="container">
-                {showArticle()}    
-                <div>
-                    {article.add === false ? 
-                        <div>
-                            The story isn't found
-                        </div>   
-                        :
-                        null
-                    } 
-                </div>      
+        <div className="container">
+            {showArticle()}
+            <div>
+                {article.add === false ? (
+                    <div>The story isn't found</div>
+                ) : null}
             </div>
-    ) 
+        </div>
+    )
 }
 
-export default Article; 
+export default Article

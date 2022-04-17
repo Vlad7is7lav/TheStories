@@ -1,16 +1,13 @@
-import React from 'react';
-import Header from  '../Header';
+import React from "react"
+import Header from "../Header"
 
-const Main:React.FC = (props) => {
+const Main: React.FC = (props) => {
     return (
         <>
             <Header />
-            <>
-                {props.children}
-            </>
+            <>{props.children}</>
         </>
     )
-    
 }
 
-export default Main;
+export default Main

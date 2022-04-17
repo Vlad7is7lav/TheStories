@@ -1,44 +1,40 @@
-import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
-import FontAwesome from 'react-fontawesome';
-import MainSideNav from './Sidenav/Sidenav'
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import FontAwesome from "react-fontawesome"
+import MainSideNav from "./Sidenav/Sidenav"
 
-const Header:React.FC = (props) => {
-    
+const Header: React.FC = (props) => {
     //hooks to show and hide side panel
-    const [showNav, setShowNav] = useState<boolean>(false);
+    const [showNav, setShowNav] = useState<boolean>(false)
 
     //show side panel
     const showSidenav = () => {
-        setShowNav(true);
+        setShowNav(true)
     }
 
     //hide side panel
     const hideSidenav = () => {
-        setShowNav(false);
-    }    
+        setShowNav(false)
+    }
 
     return (
         <header>
             <div className="open_nav">
-                <FontAwesome 
+                <FontAwesome
                     name="bars"
-                    onClick={()=>{showSidenav()}}
+                    onClick={() => {
+                        showSidenav()
+                    }}
                     style={{
-                        color:'blue',
-                        padding: '10px',
-                        cursor: 'pointer',
-                        fontSize: '25px'
+                        color: "blue",
+                        padding: "10px",
+                        cursor: "pointer",
+                        fontSize: "25px",
                     }}
                 />
-                
             </div>
-            {/* Main component for side panel */}
-            <MainSideNav 
-                showNav={showNav}
-                onHideNav={() => hideSidenav()}
-            />
-            
+            <MainSideNav showNav={showNav} onHideNav={() => hideSidenav()} />
+
             <Link to="/" className="logo">
                 The Story
             </Link>

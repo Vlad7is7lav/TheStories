@@ -1,12 +1,12 @@
-import {combineReducers} from 'redux';
-import storyReduce from './story_reducers';
-import userReduce from './user_reducers';
+import { combineReducers } from "redux"
+import storyReduce from "./storyReducers"
+import userReduce from "./userReducers"
 
 const rootReducer = combineReducers({
     storyReduce,
-    userReduce
-});
+    userReduce,
+})
 
-export default rootReducer;
-export type RootStoryReduce = ReturnType<typeof storyReduce>; 
+export default rootReducer
+export type RootStoryReduce = ReturnType<typeof storyReduce>
 export type RootUserReduce = ReturnType<typeof userReduce>

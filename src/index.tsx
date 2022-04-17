@@ -1,25 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-// import './index.css';
-import Routes from './routes';
-import {Provider} from 'react-redux';
+import React from "react"
+import ReactDOM from "react-dom"
+import Routes from "./routes"
+import { Provider } from "react-redux"
 
-import {createStore, applyMiddleware} from 'redux';
-import promiseMiddleware from 'redux-promise';
+import { createStore, applyMiddleware } from "redux"
+import promiseMiddleware from "redux-promise"
 
-import reducers from './store/reducers/index';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import reducers from "./store/reducers/index"
+import { composeWithDevTools } from "redux-devtools-extension"
 
-const createStoreWithMiddleware = createStore(reducers, composeWithDevTools(applyMiddleware(promiseMiddleware)))
-
-// const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore)
-
-
-
+const createStoreWithMiddleware = createStore(
+    reducers,
+    composeWithDevTools(applyMiddleware(promiseMiddleware))
+)
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware}>
-    <Routes />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={createStoreWithMiddleware}>
+        <Routes />
+    </Provider>,
+    document.getElementById("root")
 )
